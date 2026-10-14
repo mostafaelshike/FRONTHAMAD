@@ -1,0 +1,283 @@
+<header class="top-header" dir="rtl">
+
+  <!-- اللوجو -->
+  <div class="brand-section">
+    <div class="brand-text">
+      <h1>سوق طبي</h1>
+      <p>
+        منصة المستلزمات والأجهزة الطبية المعتمدة
+        <i class="bi bi-patch-check-fill"></i>
+      </p>
+    </div>
+
+    <div class="logo-icon">
+      <i class="bi bi-bag-plus-fill"></i>
+    </div>
+  </div>
+
+
+  <!-- الجزء الشمال -->
+  <div class="header-actions">
+
+    <!-- الدعم الفني -->
+    <div class="support">
+      <span>الدعم الفني:</span>
+      <strong>920000000</strong>
+      <i class="bi bi-headset"></i>
+    </div>
+
+    <!-- العودة للمتجر -->
+    <div class="back-store">
+      <a routerLink="/" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <span>العودة للمتجر الرئيسي</span>
+        <i class="bi bi-arrow-left"></i>
+      </a>
+    </div>
+
+    <!-- المستخدم -->
+    <div class="user-icon">
+      <i class="bi bi-person"></i>
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<div class="login-page" dir="rtl">
+
+  <div class="login-container">
+
+    <section class="login-form-card">
+
+      <div class="form-header">
+
+        <div class="secure-badge">
+          <i class="bi bi-shield-lock"></i>
+          منظومة الدخول الآمن
+        </div>
+
+        <span class="verified-text">
+          <i class="bi bi-circle-fill"></i>
+          قواعد معتمدة ومحمية
+        </span>
+
+      </div>
+
+      <h1>تسجيل الدخول إلى حسابك الطبي</h1>
+
+      <p class="subtitle">
+        مرحباً بك مجدداً في منصة توريد الأجهزة والمستلزمات الطبية المعتمدة
+      </p>
+
+      @if (errorMessage) {
+        <div style="background: #fee2e2; color: #b91c1c; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+
+      <div class="account-notice">
+
+        <i class="bi bi-shield-check"></i>
+
+        <p>
+          <strong>دخول آمن:</strong>
+          أدخل بيانات الحساب المسجل للمتابعة.
+        </p>
+
+      </div>
+
+      <form (ngSubmit)="onLogin()">
+
+        <div class="field">
+
+          <div class="label-row">
+            <label>البريد الإلكتروني</label>
+            <span>الحساب الشخصي أو المنشأة</span>
+          </div>
+
+          <div class="input-box">
+            <input
+              type="email"
+              name="email"
+              [(ngModel)]="email"
+              required
+              maxlength="120"
+              autocomplete="email"
+              dir="ltr"
+              placeholder="user@medicalmarket.com"
+            >
+            <i class="bi bi-person-vcard"></i>
+          </div>
+
+        </div>
+
+        <div class="field">
+
+          <div class="label-row">
+            <label>كلمة المرور</label>
+
+            <a href="javascript:void(0)" (click)="errorMessage = 'يرجى التواصل مع خدمة العملاء لإعادة تعيين كلمة المرور'">
+              نسيت كلمة المرور؟
+            </a>
+          </div>
+
+          <div class="input-box">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              name="password"
+              [(ngModel)]="password"
+              required
+              maxlength="64"
+              autocomplete="current-password"
+              placeholder="أدخل كلمة المرور الخاصة بحسابك"
+            >
+
+            <i class="bi bi-lock"></i>
+
+            <button type="button" class="show-password" (click)="toggleShowPassword()">
+              <i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <label class="remember">
+
+          <input type="checkbox" name="rememberMe" [(ngModel)]="rememberMe">
+
+          <span class="custom-checkbox"></span>
+
+          <span>
+            تذكر بيانات تسجيل الدخول على هذا الجهاز
+          </span>
+
+        </label>
+
+        <button type="submit" class="login-btn" [disabled]="loading">
+          @if (loading) {
+            <i class="bi bi-arrow-repeat spin"></i> جاري تسجيل الدخول...
+          } @else {
+            <i class="bi bi-lock"></i>
+            تسجيل الدخول الآمن
+          }
+        </button>
+
+      </form>
+
+      <div class="divider">
+        <span>ليس لديك حساب بعد؟</span>
+      </div>
+
+      <button type="button" class="sms-btn" routerLink="/register">
+        <i class="bi bi-person-plus"></i>
+        إنشاء حساب طبي جديد
+      </button>
+
+    </section>
+
+    <section class="medical-info">
+
+      <div class="info-badge">
+        <i class="bi bi-shield-check"></i>
+        بوابة التوريد والمعدات المعتمدة
+      </div>
+
+      <h2>
+        تجهيزات طبية متكاملة
+        <br>
+        بثقة واحترافية
+      </h2>
+
+      <p class="info-description">
+        المنصة الشاملة لإمداد العيادات، مراكز الرعاية اليومية،
+        والممارسين بأحدث أدوات التشخيص ومعدات التأهيل.
+      </p>
+
+      <div class="medical-image">
+
+        <img
+          src="/assets/images/Background+Shadow (1).png"
+          alt="التجهيزات الطبية"
+        >
+
+        <div class="image-overlay">
+
+          <strong>
+            مطابقة مواصفات الهيئة العامة للغذاء والدواء
+          </strong>
+
+          <span>
+            أجهزة قياس، تشخيص سريري، وأسرّة طبية معتمدة
+          </span>
+
+        </div>
+
+        <div class="verified-icon">
+          <i class="bi bi-patch-check"></i>
+        </div>
+
+      </div>
+
+      <div class="info-feature">
+
+        <div class="feature-icon">
+          <i class="bi bi-truck"></i>
+        </div>
+
+        <div>
+          <strong>الدفع عند الاستلام (COD)</strong>
+          <span>
+            عاين الأجهزة وتحقق منها قبل إتمام السداد
+          </span>
+        </div>
+
+      </div>
+
+      <div class="info-feature">
+
+        <div class="feature-icon">
+          <i class="bi bi-shield-check"></i>
+        </div>
+
+        <div>
+          <strong>ضمان سارٍ ودعم فني ممتد</strong>
+          <span>
+            ضمان استبدال فوري وقطع غيار لجميع الأجهزة التشخيصية
+          </span>
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <footer class="login-footer">
+
+    <div>
+      <i class="bi bi-shield-check"></i>
+      تشفير بيانات SSL 256-bit
+    </div>
+
+    <div>
+      <i class="bi bi-cash-stack"></i>
+      الدفع نقداً عند استلام المعدات
+    </div>
+
+    <div>
+      <i class="bi bi-file-earmark-check"></i>
+      مطابق للوائح الأجهزة السريرية
+    </div>
+
+    <div>
+      <i class="bi bi-headset"></i>
+      تحتاج مساعدة؟ الهاتف الموحد:
+      <strong>920000000</strong>
+    </div>
+
+  </footer>
+
+</div>

@@ -1,0 +1,793 @@
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
+
+* {
+  box-sizing: border-box;
+}
+
+.login-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 85% 10%, rgba(125, 235, 205, .25), transparent 20%),
+    radial-gradient(circle at 5% 100%, rgba(100, 240, 205, .22), transparent 22%),
+    #f6f8ff;
+ 
+  font-family: Tahoma, Arial, sans-serif;
+  color: #182335;
+}
+
+.login-container {
+  width: min(1025px, 100%);
+  min-height: 675px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 45px rgba(34, 49, 76, .12);
+  display: grid;
+  grid-template-columns: 1.25fr .9fr;
+  direction: ltr;
+}
+
+.login-form-card {
+  direction: rtl;
+  padding: 38px 40px;
+  background: #fff;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.secure-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #eef8f5;
+  color: #007f60;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.secure-badge i {
+  font-size: 12px;
+}
+
+.verified-text {
+  color: #68736e;
+  font-size: 9px;
+}
+
+.verified-text i {
+  color: #08a97e;
+  font-size: 6px;
+  margin-left: 4px;
+}
+
+.login-form-card h1 {
+  font-size: 29px;
+  margin: 8px 0 6px;
+  color: #172235;
+}
+
+.subtitle {
+  color: #66706d;
+  font-size: 11px;
+  margin: 0 0 22px;
+  line-height: 1.8;
+}
+
+.account-notice {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: #eef3ff;
+  border-radius: 7px;
+  padding: 12px 14px;
+  margin-bottom: 25px;
+}
+
+.account-notice > i {
+  color: #008866;
+  font-size: 17px;
+}
+
+.account-notice p {
+  margin: 0;
+  color: #626b68;
+  font-size: 9px;
+  line-height: 1.8;
+}
+
+.account-notice strong {
+  color: #26302e;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+.label-row label {
+  font-size: 11px;
+  color: #28313e;
+}
+
+.label-row span {
+  font-size: 8px;
+  color: #707b77;
+}
+
+.label-row a {
+  color: #008966;
+  font-size: 9px;
+  text-decoration: none;
+}
+
+.input-box {
+  position: relative;
+}
+
+.input-box input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #eef0f0;
+  border-radius: 8px;
+  outline: none;
+  background: #fff;
+  padding: 0 40px 0 42px;
+  font-family: inherit;
+  color: #27313d;
+  font-size: 10px;
+  transition: .2s;
+}
+
+.input-box input:focus {
+  border-color: #0ab382;
+  box-shadow: 0 0 0 3px rgba(10, 179, 130, .08);
+}
+
+.input-box > i {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7d8984;
+  font-size: 15px;
+}
+
+.show-password {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: #66736e;
+  cursor: pointer;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #47524e;
+  font-size: 9px;
+  margin: 4px 0 18px;
+  cursor: pointer;
+}
+
+.remember input {
+  display: none;
+}
+
+.custom-checkbox {
+  width: 19px;
+  height: 19px;
+  border-radius: 4px;
+  background: #e2edff;
+  display: inline-block;
+  position: relative;
+}
+
+.remember input:checked + .custom-checkbox {
+  background: #08ad7e;
+}
+
+.remember input:checked + .custom-checkbox::after {
+  content: "\f26a";
+  font-family: bootstrap-icons;
+  position: absolute;
+  color: #fff;
+  font-size: 12px;
+  left: 3px;
+  top: 1px;
+}
+
+.login-btn {
+  width: 100%;
+  height: 48px;
+  border: 0;
+  border-radius: 7px;
+  background: #00805e;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 5px 12px rgba(0, 128, 94, .15);
+  transition: .2s;
+}
+
+.login-btn:hover {
+  background: #006d50;
+}
+
+.login-btn i {
+  margin-left: 7px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 25px 0 17px;
+  color: #78817d;
+  font-size: 9px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  height: 1px;
+  background: #e1e6e5;
+  flex: 1;
+}
+
+.sms-btn {
+  width: 100%;
+  height: 48px;
+  border: 0;
+  border-radius: 7px;
+  background: #eef3ff;
+  color: #008160;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.sms-btn i {
+  margin-left: 7px;
+}
+
+.create-account {
+  min-height: 52px;
+  margin-top: 12px;
+  border-radius: 10px;
+  background: #e4edff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  color: #4d5855;
+  font-size: 9px;
+}
+
+.create-account a {
+  background: #fff;
+  color: #008362;
+  text-decoration: none;
+  padding: 7px 12px;
+  border-radius: 6px;
+  margin-right: auto;
+}
+
+.create-account > i {
+  color: #008362;
+  font-size: 18px;
+}
+
+.medical-info {
+  direction: rtl;
+  background: #e5edff;
+  padding: 38px 40px;
+}
+
+.info-badge {
+  width: fit-content;
+  margin: 0 auto 18px;
+  background: #fff;
+  color: #008361;
+  padding: 7px 13px;
+  border-radius: 20px;
+  font-size: 9px;
+}
+
+.info-badge i {
+  margin-left: 5px;
+}
+
+.medical-info h2 {
+  text-align: center;
+  font-size: 27px;
+  line-height: 1.3;
+  margin: 0;
+  color: #182438;
+}
+
+.info-description {
+  text-align: center;
+  color: #5c6664;
+  font-size: 10px;
+  line-height: 1.9;
+  margin: 12px 0 22px;
+}
+
+.medical-image {
+  height: 255px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+
+.medical-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  padding: 30px 14px 13px;
+  background: linear-gradient(
+    transparent,
+    rgba(0, 60, 48, .88)
+  );
+  color: #fff;
+}
+
+.image-overlay strong,
+.image-overlay span {
+  display: block;
+}
+
+.image-overlay strong {
+  font-size: 9px;
+  margin-bottom: 4px;
+}
+
+.image-overlay span {
+  font-size: 7px;
+  opacity: .9;
+}
+
+.verified-icon {
+  position: absolute;
+  bottom: 14px;
+  left: 13px;
+  color: #00bd8a;
+  font-size: 22px;
+}
+
+.info-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 11px;
+  margin-top: 8px;
+}
+
+.feature-icon {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 8px;
+  background: #eef4ff;
+  color: #008766;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+}
+
+.info-feature strong,
+.info-feature span {
+  display: block;
+}
+
+.info-feature strong {
+  font-size: 9px;
+  margin-bottom: 4px;
+  color: #26302f;
+}
+
+.info-feature span {
+  font-size: 7px;
+  color: #68726e;
+}
+
+.login-footer {
+  width: min(1025px, 100%);
+  min-height: 48px;
+  margin: 12px auto 0;
+  background: rgba(255, 255, 255, .8);
+  border: 1px solid #e3e8ed;
+  border-radius: 10px;
+  display: flex;
+  direction: rtl;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 10px 22px;
+  color: #56615d;
+  font-size: 8px;
+}
+
+.login-footer div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.login-footer i {
+  color: #008866;
+  font-size: 13px;
+}
+
+.login-footer strong {
+  color: #008866;
+  direction: ltr;
+}
+
+@media (max-width: 900px) {
+
+  .login-container {
+    grid-template-columns: 1fr;
+    max-width: 650px;
+  }
+
+  .medical-info {
+    order: -1;
+  }
+
+  .medical-image {
+    height: 280px;
+  }
+
+  .login-footer {
+    max-width: 650px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .login-page {
+    padding: 20px 12px;
+  }
+
+  .login-form-card,
+  .medical-info {
+    padding: 25px 18px;
+  }
+
+  .login-form-card h1 {
+    font-size: 24px;
+  }
+
+  .form-header {
+    gap: 10px;
+  }
+
+  .verified-text {
+    display: none;
+  }
+
+  .medical-info h2 {
+    font-size: 23px;
+  }
+
+  .medical-image {
+    height: 220px;
+  }
+
+  .create-account {
+    flex-wrap: wrap;
+  }
+
+  .create-account a {
+    margin-right: 0;
+  }
+
+  .login-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+
+/* ===================header================== */
+
+
+* {
+  box-sizing: border-box;
+}
+
+.top-header {
+  width: 100%;
+  height: 90px;
+  
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 38px;
+
+  
+
+  direction: rtl;
+
+  font-family: Arial, Tahoma, sans-serif;
+}
+
+
+/* =========================
+   Logo
+========================= */
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  direction: ltr;
+}
+
+.logo-icon {
+  width: 23px;
+  height: 23px;
+
+  background-color: #07966f;
+  color: white;
+
+  border-radius: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 15px;
+}
+
+.brand-text {
+  text-align: right;
+}
+
+.brand-text h1 {
+  margin: 0 0 3px;
+
+  color: #07866a;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+.brand-text p {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 10px;
+  font-weight: 400;
+
+  white-space: nowrap;
+}
+
+.brand-text p i {
+  color: #07866a;
+  font-size: 11px;
+
+  margin-right: 4px;
+}
+
+
+/* =========================
+   Header Actions
+========================= */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 25px;
+
+ 
+}
+
+
+/* =========================
+   Support
+========================= */
+
+.support {
+  height: 29px;
+
+  padding: 0 11px;
+
+  border-radius: 18px;
+
+  background-color: #edf5ff;
+
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+
+  color: #07866a;
+
+  font-size: 11px;
+
+  direction: rtl;
+}
+
+.support span {
+  color: #07866a;
+}
+
+.support strong {
+  color: #008d70;
+  font-weight: 600;
+}
+
+.support i {
+  font-size: 13px;
+  color: #008d70;
+}
+
+
+/* =========================
+   Back Store
+========================= */
+
+.back-store {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  color: #555;
+
+  font-size: 13px;
+
+  white-space: nowrap;
+
+  direction: rtl;
+}
+
+.back-store i {
+  font-size: 16px;
+
+  color: #444;
+
+  transition: transform 0.2s ease;
+}
+
+.back-store:hover i {
+  transform: translateX(-3px);
+}
+
+
+/* =========================
+   User
+========================= */
+
+.user-icon {
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+
+  background-color: #07866a;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 16px;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 768px) {
+
+  .top-header {
+    height: auto;
+    min-height: 80px;
+
+    padding: 12px 18px;
+
+    gap: 15px;
+  }
+
+  .brand-text p {
+    display: none;
+  }
+
+  .brand-text h1 {
+    font-size: 18px;
+  }
+
+  .header-actions {
+    gap: 12px;
+  }
+
+  .back-store span {
+    display: none;
+  }
+
+  .support {
+    padding: 0 8px;
+  }
+
+  .support span {
+    display: none;
+  }
+}
+
+
+@media (max-width: 500px) {
+
+  .top-header {
+    padding: 10px 12px;
+  }
+
+  .support strong {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .brand-text h1 {
+    font-size: 16px;
+  }
+
+  .logo-icon {
+    width: 21px;
+    height: 21px;
+    font-size: 13px;
+  }
+
+  .user-icon {
+    width: 30px;
+    height: 30px;
+  }
+}

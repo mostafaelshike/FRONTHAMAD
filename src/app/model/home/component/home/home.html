@@ -1,0 +1,600 @@
+
+<app-product-details-modal [product]="selectedProduct" (closed)="selectedProduct = null"></app-product-details-modal>
+
+<div class="home-page" dir="rtl">
+
+
+  <!-- =========================================================
+       HERO
+  ========================================================= -->
+
+  <section class="hero" style="margin-top: 140px;">
+
+    <div class="container hero-container">
+
+      <div class="hero-content">
+
+        <span class="hero-badge">
+          <i class="bi bi-heart-pulse-fill"></i>
+          {{ hero.badge }}
+        </span>
+
+        <h1>
+          {{ hero.title }}
+        </h1>
+
+        <p>
+          {{ hero.description }}
+        </p>
+
+        <div class="hero-actions">
+
+          <a
+            routerLink="/product"
+            class="primary-btn"
+          >
+            <span>{{ hero.buttonText }}</span>
+            <i class="bi bi-arrow-left"></i>
+          </a>
+
+          <a
+            routerLink="/conect"
+            class="secondary-btn"
+          >
+            طلب توريد خاص
+          </a>
+
+        </div>
+
+        <div class="hero-stats">
+
+          <div class="hero-stat">
+            <strong>+500</strong>
+            <span>منتج طبي</span>
+          </div>
+
+          <div class="hero-stat">
+            <strong>+50</strong>
+            <span>علامة تجارية</span>
+          </div>
+
+          <div class="hero-stat">
+            <strong>24/7</strong>
+            <span>دعم متواصل</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="hero-image-wrapper">
+
+        <div class="hero-image-bg"></div>
+
+        <img
+          [src]="hero.image"
+          alt="المستلزمات والأجهزة الطبية"
+          class="hero-image"
+        >
+
+        <div class="floating-card floating-card-one">
+
+          <div class="floating-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+
+          <div>
+            <strong>جودة مضمونة</strong>
+            <span>منتجات موثوقة</span>
+          </div>
+
+        </div>
+
+
+        <div class="floating-card floating-card-two">
+
+          <div class="floating-icon">
+            <i class="bi bi-truck"></i>
+          </div>
+
+          <div>
+            <strong>توصيل سريع</strong>
+            <span>حتى باب منزلك</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       SERVICES
+  ========================================================= -->
+
+  <section class="services-section">
+
+    <div class="container">
+
+      <div class="services-grid">
+
+        @for (service of services; track service.title) {
+
+          <div class="service-card">
+
+            <div class="service-icon">
+              <i class="bi" [ngClass]="service.icon"></i>
+            </div>
+
+            <div class="service-content">
+
+              <h3>
+                {{ service.title }}
+              </h3>
+
+              <p>
+                {{ service.description }}
+              </p>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       CATEGORIES
+  ========================================================= -->
+
+  <section class="categories-section">
+
+    <div class="container">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-label">
+            تصفح منتجاتنا
+          </span>
+
+          <h2>
+            الأقسام الطبية
+          </h2>
+
+        </div>
+
+        <p>
+          اكتشف مجموعة متنوعة من الأجهزة والمستلزمات الطبية
+          المختارة بعناية لتلبية احتياجاتك.
+        </p>
+
+      </div>
+
+
+      @if (loading) {
+
+        <div class="categories-grid">
+
+          @for (item of [1,2,3,4,5,6]; track item) {
+
+            <div class="category-skeleton">
+
+              <div class="skeleton category-icon-skeleton"></div>
+
+              <div class="category-skeleton-text">
+
+                <div class="skeleton skeleton-title"></div>
+
+                <div class="skeleton skeleton-line"></div>
+
+              </div>
+
+              <div class="skeleton skeleton-arrow"></div>
+
+            </div>
+
+          }
+
+        </div>
+
+      } @else {
+
+        @if (categories.length > 0) {
+
+          <div class="categories-grid">
+
+            @for (category of categories; track category._id) {
+
+              <a
+                class="category-card"
+                [routerLink]="['/product']"
+                [queryParams]="{ category: category._id }"
+              >
+
+                <div class="category-icon">
+
+                  <i
+                    class="bi"
+                    [class]="category.icon || 'bi-heart-pulse'"
+                  ></i>
+
+                </div>
+
+                <div class="category-content">
+
+                  <h3>
+                    {{ category.name }}
+                  </h3>
+
+                  <p>
+                    {{ category.description || 'أجهزة ومستلزمات طبية' }}
+                  </p>
+
+                </div>
+
+                <div class="category-arrow">
+                  <i class="bi bi-arrow-left"></i>
+                </div>
+
+              </a>
+
+            }
+
+          </div>
+
+        } @else {
+
+          <div class="empty-state">
+
+            <i class="bi bi-box-seam"></i>
+
+            <h3>
+              لا توجد أقسام حالياً
+            </h3>
+
+            <p>
+              سيتم إضافة الأقسام الطبية قريباً.
+            </p>
+
+          </div>
+
+        }
+
+      }
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       PRODUCTS
+  ========================================================= -->
+
+  <section class="products-section">
+
+    <div class="container">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-label">
+            منتجات مختارة
+          </span>
+
+          <h2>
+            الأكثر طلباً
+          </h2>
+
+        </div>
+
+        <a
+          routerLink="/product"
+          class="view-all"
+        >
+          عرض جميع المنتجات
+          <i class="bi bi-arrow-left"></i>
+        </a>
+
+      </div>
+
+
+      <!-- ================= PRODUCT LOADING ================= -->
+
+      @if (loading) {
+
+        <div class="products-grid">
+
+          @for (item of [1,2,3,4,5,6,7,8]; track item) {
+
+            <div class="product-card skeleton-card">
+
+              <div class="product-skeleton-image skeleton"></div>
+
+              <div class="product-skeleton-content">
+
+                <div class="skeleton skeleton-small"></div>
+
+                <div class="skeleton skeleton-product-title"></div>
+
+                <div class="skeleton skeleton-product-title short"></div>
+
+                <div class="skeleton skeleton-price"></div>
+
+                <div class="skeleton skeleton-button"></div>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      } @else {
+
+
+        @if (products.length > 0) {
+
+          <div class="products-grid">
+
+            @for (product of products; track product._id || product.id) {
+
+              <div class="product-card">
+
+                <!-- IMAGE -->
+
+                <div class="product-image">
+
+                  @if (product.badge) {
+
+                    <span class="product-badge">
+                      {{ product.badge }}
+                    </span>
+
+                  }
+
+
+                  <button
+                    type="button"
+                    class="favorite-btn"
+                    [class.active]="isFav(product)"
+                    (click)="toggleFavorite(product, $event)"
+                  >
+
+                    <i
+                      class="bi"
+                      [class.bi-heart-fill]="isFav(product)"
+                      [class.bi-heart]="!isFav(product)"
+                    ></i>
+
+                  </button>
+
+
+                  <a href="#" (click)="$event.preventDefault(); openProduct(product)">
+
+                    <img
+                      [src]="product.image"
+                      [alt]="product.name"
+                      loading="lazy"
+                    >
+
+                  </a>
+
+                </div>
+
+
+                <!-- INFO -->
+
+                <div class="product-info">
+
+                  <span class="product-sku">
+                    كود المنتج: {{ product.sku }}
+                  </span>
+
+                  <h3>
+
+                    <a href="#" (click)="$event.preventDefault(); openProduct(product)">
+                      {{ product.name }}
+                    </a>
+
+                  </h3>
+
+
+                  <div class="product-bottom">
+
+                    <div class="price-box">
+
+                      <span class="current-price">
+                        {{ product.price | number }}
+                        <small>ر.س</small>
+                      </span>
+
+                      @if (
+                        product.oldPrice &&
+                        product.oldPrice > product.price
+                      ) {
+
+                        <span class="old-price">
+                          {{ product.oldPrice | number }}
+                          ر.س
+                        </span>
+
+                      }
+
+                    </div>
+
+
+                    <button
+                      type="button"
+                      class="cart-btn"
+                      (click)="addToCart(product, $event)"
+                    >
+
+                      <i class="bi bi-cart-plus"></i>
+
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+        } @else {
+
+          <div class="empty-state">
+
+            <i class="bi bi-box-seam"></i>
+
+            <h3>
+              لا توجد منتجات حالياً
+            </h3>
+
+            <p>
+              سيتم إضافة المنتجات قريباً.
+            </p>
+
+          </div>
+
+        }
+
+      }
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       WHY CHOOSE US
+  ========================================================= -->
+
+  <section class="features-section">
+
+    <div class="container">
+
+      <div class="features-heading">
+
+        <span class="section-label">
+          لماذا نحن
+        </span>
+
+        <h2>
+          تجربة تسوق طبية مريحة وآمنة
+        </h2>
+
+        <p>
+          نوفر لك المنتجات الطبية عالية الجودة مع دعم احترافي،
+          أسعار تنافسية، وتوصيل موثوق في كل خطوة.
+        </p>
+
+      </div>
+
+      <div class="features-grid">
+
+        <div class="feature-card highlight">
+          <div class="feature-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h3>منتجات موثوقة</h3>
+          <p>نعمل مع علامات تجارية معتمدة ومضمونة الجودة.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-truck"></i>
+          </div>
+          <h3>توصيل سريع</h3>
+          <p>خدمة توصيل من الباب إلى الباب داخل المدن الرئيسية.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-headset"></i>
+          </div>
+          <h3>دعم فني</h3>
+          <p>نصائح وإرشادات من فريق متخصص في اختيار المنتج المناسب.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-credit-card"></i>
+          </div>
+          <h3>دفع آمن</h3>
+          <p>خيارات دفع متعددة وسهلة، مع أمان كامل للمعاملات.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================================
+       CTA
+  ========================================================= -->
+
+  <section class="cta-section">
+
+    <div class="container">
+
+      <div class="cta-card">
+
+        <div class="cta-content">
+
+          <span class="cta-icon">
+            <i class="bi bi-chat-dots"></i>
+          </span>
+
+          <h2>
+            محتاج مساعدة في اختيار المنتج؟
+          </h2>
+
+          <p>
+            فريقنا جاهز لمساعدتك في اختيار المستلزمات
+            والأجهزة الطبية المناسبة.
+          </p>
+
+        </div>
+
+        <a
+          routerLink="/conect"
+          class="cta-btn"
+        >
+          تواصل معنا
+          <i class="bi bi-arrow-left"></i>
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+</div>
+

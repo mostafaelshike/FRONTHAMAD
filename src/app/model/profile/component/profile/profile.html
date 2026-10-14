@@ -1,0 +1,275 @@
+<div class="profile-page" dir="rtl">
+  @if (selectedOrder()) {
+    <div class="order-detail-backdrop" (click)="closeOrderDetails()" role="presentation">
+      <section
+        class="order-detail-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="order-detail-title"
+        (click)="$event.stopPropagation()">
+        <button type="button" class="order-detail-close" aria-label="إغلاق تفاصيل الطلب" (click)="closeOrderDetails()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+
+        <div class="order-detail-header">
+          <div>
+            <span class="panel-kicker">تفاصيل الطلب</span>
+            <h2 id="order-detail-title">#{{ selectedOrder()?.orderNumber || selectedOrder()?._id?.slice(-6) }}</h2>
+          </div>
+          <span class="order-status" [class]="'order-status order-status--' + selectedOrder()?.orderStatus">
+            {{ statusLabel(selectedOrder()!.orderStatus) }}
+          </span>
+        </div>
+
+        <div class="order-detail-grid">
+          <div class="detail-box">
+            <h3>بيانات العميل</h3>
+            <div class="detail-line"><span>الاسم</span><strong>{{ selectedOrder()?.customerInfo?.name || 'غير مضاف' }}</strong></div>
+            <div class="detail-line"><span>الهاتف</span><strong dir="ltr">{{ selectedOrder()?.customerInfo?.phone || 'غير مضاف' }}</strong></div>
+            <div class="detail-line"><span>المدينة</span><strong>{{ selectedOrder()?.customerInfo?.city || 'غير مضافة' }}</strong></div>
+            <div class="detail-line"><span>العنوان</span><strong>{{ selectedOrder()?.customerInfo?.address || 'غير مضاف' }}</strong></div>
+          </div>
+
+          <div class="detail-box">
+            <h3>معلومات الطلب</h3>
+            <div class="detail-line"><span>تاريخ الطلب</span><strong>{{ selectedOrder()?.createdAt | date:'d MMM y' }}</strong></div>
+            <div class="detail-line"><span>طريقة الدفع</span><strong>{{ paymentLabel(selectedOrder()!.paymentMethod) }}</strong></div>
+            <div class="detail-line"><span>حالة الدفع</span><strong>{{ selectedOrder()?.paymentStatus || 'pending' }}</strong></div>
+            <div class="detail-line"><span>رقم التتبع</span><strong>{{ selectedOrder()?.trackingNumber || '—' }}</strong></div>
+          </div>
+        </div>
+
+        <div class="order-items-box">
+          <h3>المنتجات</h3>
+          @for (item of selectedOrder()?.items; track $index) {
+            <div class="order-item-row">
+              <div class="item-thumb">
+                @if (item.image) {
+                  <img [src]="item.image" [alt]="item.name" />
+                } @else {
+                  <i class="bi bi-bag"></i>
+                }
+              </div>
+              <div class="item-copy">
+                <strong>{{ item.name }}</strong>
+                <span>{{ item.quantity }} × {{ item.price | number:'1.0-0' }} ر.س</span>
+              </div>
+              <strong class="item-total">{{ (item.price * item.quantity) | number:'1.0-0' }} ر.س</strong>
+            </div>
+          }
+        </div>
+
+        <div class="order-totals">
+          <div class="sum-row"><span>المجموع الفرعي</span><strong>{{ selectedOrder()?.subtotal | number:'1.0-0' }} ر.س</strong></div>
+          <div class="sum-row"><span>الضريبة</span><strong>{{ selectedOrder()?.tax | number:'1.0-0' }} ر.س</strong></div>
+          <div class="sum-row"><span>الشحن</span><strong>{{ selectedOrder()?.shippingFee | number:'1.0-0' }} ر.س</strong></div>
+          <div class="sum-row total-row"><span>الإجمالي</span><strong>{{ selectedOrder()?.totalAmount | number:'1.0-0' }} ر.س</strong></div>
+        </div>
+      </section>
+    </div>
+  }
+
+  @if (showLogoutDialog) {
+    <div class="logout-dialog-backdrop" (click)="cancelLogout()" role="presentation">
+      <section
+        class="logout-dialog"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="logout-dialog-title"
+        aria-describedby="logout-dialog-description"
+        (click)="$event.stopPropagation()">
+        <div class="logout-dialog-icon"><i class="bi bi-box-arrow-right"></i></div>
+        <h2 id="logout-dialog-title">تأكيد تسجيل الخروج</h2>
+        <p id="logout-dialog-description">هل تريد تسجيل الخروج من حسابك الآن؟</p>
+        <div class="logout-dialog-actions">
+          <button type="button" class="logout-cancel" (click)="cancelLogout()">البقاء في الحساب</button>
+          <button type="button" class="logout-confirm" (click)="confirmLogout()">
+            <i class="bi bi-box-arrow-right"></i> تسجيل الخروج
+          </button>
+        </div>
+      </section>
+    </div>
+  }
+
+  <header class="profile-hero">
+    <div class="hero-copy">
+      <span class="eyebrow"><i class="bi bi-person-circle"></i> مساحة حسابك</span>
+      <h1>أهلاً، {{ authService.currentUser()?.name || 'مرحباً بك' }}</h1>
+      <p>تابع طلباتك وأدر بيانات حسابك من مكان واحد.</p>
+      <a class="shop-link" routerLink="/product">
+        <i class="bi bi-bag"></i>
+        تصفح المنتجات
+      </a>
+    </div>
+
+    <div class="identity-card">
+      <div class="avatar">{{ initials }}</div>
+      <div class="identity-copy">
+        <strong>{{ authService.currentUser()?.name }}</strong>
+        <span>{{ authService.currentUser()?.email }}</span>
+        <small><i class="bi bi-patch-check-fill"></i> {{ roleLabel }}</small>
+      </div>
+    </div>
+  </header>
+
+  <section class="stats-grid" aria-label="ملخص الحساب">
+    <article class="stat-item">
+      <span class="stat-icon stat-icon--green"><i class="bi bi-receipt"></i></span>
+      <div><small>كل الطلبات</small><strong>{{ orders().length }}</strong></div>
+    </article>
+    <article class="stat-item">
+      <span class="stat-icon stat-icon--blue"><i class="bi bi-truck"></i></span>
+      <div><small>طلبات نشطة</small><strong>{{ activeOrders }}</strong></div>
+    </article>
+    <article class="stat-item">
+      <span class="stat-icon stat-icon--rose"><i class="bi bi-heart"></i></span>
+      <div><small>المفضلة</small><strong>{{ wishlistService.wishlistCount() }}</strong></div>
+    </article>
+    <article class="stat-item">
+      <span class="stat-icon stat-icon--gold"><i class="bi bi-cart3"></i></span>
+      <div><small>منتجات السلة</small><strong>{{ cartService.itemCount() }}</strong></div>
+    </article>
+  </section>
+
+  <div class="profile-layout">
+    <main class="profile-main">
+      <section class="panel account-panel">
+        <header class="panel-header">
+          <div>
+            <span class="panel-kicker">معلوماتك</span>
+            <h2>البيانات الشخصية</h2>
+          </div>
+          @if (!editing()) {
+            <button type="button" class="edit-button" (click)="startEditing()">
+              <i class="bi bi-pencil"></i> تعديل البيانات
+            </button>
+          }
+        </header>
+
+        @if (editing()) {
+          <form class="profile-form" (ngSubmit)="saveProfile()">
+            <label>
+              الاسم بالكامل
+              <input type="text" name="name" [(ngModel)]="name" required minlength="2" autocomplete="name">
+            </label>
+            <label>
+              البريد الإلكتروني
+              <input type="email" name="email" [(ngModel)]="email" required maxlength="120" autocomplete="email" dir="ltr">
+            </label>
+            <label>
+              رقم الجوال
+              <input type="tel" name="phone" [(ngModel)]="phone" maxlength="20" autocomplete="tel" dir="ltr">
+            </label>
+            <label>
+              المنشأة أو العيادة
+              <input type="text" name="organization" [(ngModel)]="organization" maxlength="100" autocomplete="organization">
+            </label>
+            <div class="form-actions">
+              <button type="button" class="cancel-button" (click)="cancelEditing()">إلغاء</button>
+              <button type="submit" class="save-button" [disabled]="saving()">
+                <i class="bi bi-check2"></i>
+                {{ saving() ? 'جارٍ الحفظ...' : 'حفظ التغييرات' }}
+              </button>
+            </div>
+          </form>
+        } @else {
+          <div class="details-grid">
+            <div class="detail-row">
+              <span><i class="bi bi-person"></i> الاسم</span>
+              <strong>{{ authService.currentUser()?.name || 'غير مضاف' }}</strong>
+            </div>
+            <div class="detail-row">
+              <span><i class="bi bi-envelope"></i> البريد الإلكتروني</span>
+              <strong dir="ltr">{{ authService.currentUser()?.email || 'غير مضاف' }}</strong>
+            </div>
+            <div class="detail-row">
+              <span><i class="bi bi-telephone"></i> رقم الجوال</span>
+              <strong dir="ltr">{{ authService.currentUser()?.phone || 'غير مضاف' }}</strong>
+            </div>
+            <div class="detail-row">
+              <span><i class="bi bi-building"></i> المنشأة</span>
+              <strong>{{ authService.currentUser()?.organization || 'غير مضافة' }}</strong>
+            </div>
+          </div>
+        }
+      </section>
+
+      <section class="panel orders-panel">
+        <header class="panel-header">
+          <div>
+            <span class="panel-kicker">مشترياتك</span>
+            <h2>أحدث الطلبات</h2>
+          </div>
+          <span class="orders-count">{{ orders().length }} طلب</span>
+        </header>
+
+        @if (loadingOrders()) {
+          <div class="orders-loading"><span></span><span></span><span></span></div>
+        } @else if (orders().length > 0) {
+          <div class="orders-list">
+            @for (order of orders().slice(0, 4); track order._id) {
+              <article class="order-row" (click)="openOrderDetails(order)" role="button" tabindex="0" (keydown.enter)="openOrderDetails(order)" (keydown.space)="openOrderDetails(order)">
+                <div class="order-symbol"><i class="bi bi-box-seam"></i></div>
+                <div class="order-summary">
+                  <strong>طلب #{{ order.orderNumber || order._id.slice(-6) }}</strong>
+                  <span>{{ order.createdAt | date:'d MMM y' }} · {{ order.items.length }} منتج</span>
+                </div>
+                <span class="order-status" [class]="'order-status order-status--' + order.orderStatus">
+                  {{ statusLabel(order.orderStatus) }}
+                </span>
+                <div class="order-actions">
+                  <strong class="order-total">{{ order.totalAmount | number:'1.0-2' }} <small>ر.س</small></strong>
+                  <button type="button" class="details-button" (click)="$event.stopPropagation(); openOrderDetails(order)" aria-label="عرض تفاصيل الطلب">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+              </article>
+            }
+          </div>
+        } @else {
+          <div class="orders-empty">
+            <span><i class="bi bi-receipt"></i></span>
+            <strong>لا توجد طلبات حتى الآن</strong>
+            <p>ستظهر طلباتك هنا بعد إتمام الشراء.</p>
+            <a routerLink="/product">ابدأ التسوق <i class="bi bi-arrow-left"></i></a>
+          </div>
+        }
+      </section>
+    </main>
+
+    <aside class="profile-aside">
+      <section class="panel quick-panel">
+        <span class="panel-kicker">اختصارات</span>
+        <h2>الوصول السريع</h2>
+        <a routerLink="/favorit" class="quick-link">
+          <span class="quick-icon quick-icon--rose"><i class="bi bi-heart"></i></span>
+          <span><strong>قائمة المفضلة</strong><small>المنتجات التي حفظتها</small></span>
+          <b>{{ wishlistService.wishlistCount() }}</b>
+        </a>
+        <a routerLink="/cart" class="quick-link">
+          <span class="quick-icon quick-icon--green"><i class="bi bi-cart3"></i></span>
+          <span><strong>سلة المشتريات</strong><small>راجع منتجاتك قبل الطلب</small></span>
+          <b>{{ cartService.itemCount() }}</b>
+        </a>
+        <a routerLink="/product" class="quick-link">
+          <span class="quick-icon quick-icon--blue"><i class="bi bi-grid"></i></span>
+          <span><strong>تصفح المنتجات</strong><small>اكتشف المستلزمات الطبية</small></span>
+          <i class="bi bi-chevron-left"></i>
+        </a>
+      </section>
+
+      <section class="account-status">
+        <span class="status-icon"><i class="bi bi-shield-check"></i></span>
+        <div>
+          <strong>حسابك نشط</strong>
+          <p>بياناتك محفوظة ويمكنك تحديثها في أي وقت.</p>
+        </div>
+      </section>
+
+      <button type="button" class="logout-button" (click)="openLogoutDialog()">
+        <i class="bi bi-box-arrow-right"></i>
+        تسجيل الخروج
+      </button>
+    </aside>
+  </div>
+</div>

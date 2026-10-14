@@ -1,0 +1,706 @@
+<app-product-details-modal [product]="selectedProduct" (closed)="selectedProduct = null"></app-product-details-modal>
+
+<!-- =====================================================
+     PAGE
+===================================================== -->
+
+<div class="product-page" dir="rtl">
+
+
+  <!-- ===================================================
+       HERO / HEADER
+  ==================================================== -->
+
+  <section class="catalog-header">
+
+    <div class="container">
+
+      <div class="catalog-header-inner">
+
+
+        <div class="catalog-title">
+
+          <div class="title-badge">
+
+            <span class="badge-icon">
+              <i class="bi bi-heart-pulse-fill"></i>
+            </span>
+
+            <span>
+              المستلزمات الطبية
+            </span>
+
+          </div>
+
+
+          <h1>
+            الأجهزة والمعدات الطبية
+          </h1>
+
+
+          <p>
+            اكتشف مجموعة متكاملة من المستلزمات والأجهزة الطبية
+            عالية الجودة، واختر المنتجات المناسبة لاحتياجاتك
+            بسهولة وأمان.
+          </p>
+
+        </div>
+
+
+        <div class="header-stat">
+
+          <div class="stat-icon">
+            <i class="bi bi-box-seam"></i>
+          </div>
+
+          <div>
+
+            <strong>
+              {{ totalMatching }}
+            </strong>
+
+            <span>
+              منتج متاح
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           CATEGORY NAV
+      ================================================== -->
+<!-- 
+      <div class="category-navigation">
+
+        <button
+          class="category-btn all-category"
+          [class.active]="selectedCategory === 'all'"
+          (click)="filterByCategory('all')">
+
+          <i class="bi bi-grid-fill"></i>
+
+          <span>
+            الكل
+          </span>
+
+          <small>
+            {{ totalMatching }}
+          </small>
+
+        </button>
+
+
+        @for (cat of categories; track cat._id) {
+
+          <button
+            class="category-btn"
+            [class.active]="selectedCategory === cat._id"
+            (click)="filterByCategory(cat._id)">
+
+            <span>
+              {{ cat.name }}
+            </span>
+
+          </button>
+
+        }
+
+      </div> -->
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================================================
+       MAIN
+  ==================================================== -->
+
+  <main class="container main-layout">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="filters-sidebar">
+
+
+      <!-- FILTER HEADER -->
+
+      <div class="filters-header">
+
+        <div class="filters-title">
+
+          <span class="filters-icon">
+            <i class="bi bi-sliders2"></i>
+          </span>
+
+          <div>
+
+            <h2>
+              تصفية المنتجات
+            </h2>
+
+            <span>
+              اختر ما يناسبك
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- SEARCH -->
+
+      <div class="filter-section search-section">
+
+        <label>
+          البحث عن منتج
+        </label>
+
+        <div class="search-wrapper">
+
+          <i class="bi bi-search"></i>
+
+          <input
+            type="text"
+            [(ngModel)]="searchKeyword"
+            (input)="onSearchChange()"
+            placeholder="ابحث باسم المنتج أو SKU..."
+          >
+
+          @if (searchKeyword) {
+
+            <button
+              type="button"
+              class="clear-search"
+              (click)="searchKeyword=''; onSearchChange()">
+
+              <i class="bi bi-x"></i>
+
+            </button>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- CATEGORY FILTER -->
+
+      <div class="filter-section">
+
+        <div class="filter-section-title">
+
+          <div>
+
+            <i class="bi bi-grid-3x3-gap-fill"></i>
+
+            <span>
+              الأقسام الطبية
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="filter-options">
+
+          <button
+            class="filter-option"
+            [class.active]="selectedCategory === 'all'"
+            (click)="filterByCategory('all')">
+
+            <span class="option-right">
+
+              <span class="option-icon">
+                <i class="bi bi-grid"></i>
+              </span>
+
+              <span>
+                جميع الأقسام
+              </span>
+
+            </span>
+
+            @if (selectedCategory === 'all') {
+
+              <i class="bi bi-check-circle-fill check-icon"></i>
+
+            }
+
+          </button>
+
+
+          @for (c of categories; track c._id) {
+
+            <button
+              class="filter-option"
+              [class.active]="selectedCategory === c._id"
+              (click)="filterByCategory(c._id)">
+
+              <span class="option-right">
+
+                <span class="option-dot"></span>
+
+                <span>
+                  {{ c.name }}
+                </span>
+
+              </span>
+
+              @if (selectedCategory === c._id) {
+
+                <i class="bi bi-check-circle-fill check-icon"></i>
+
+              }
+
+            </button>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- BRAND FILTER -->
+
+      <div class="filter-section">
+
+        <div class="filter-section-title">
+
+          <div>
+
+            <i class="bi bi-award-fill"></i>
+
+            <span>
+              الشركات المصنعة
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="filter-options">
+
+          <button
+            class="filter-option"
+            [class.active]="selectedBrand === 'all'"
+            (click)="filterByBrand('all')">
+
+            <span class="option-right">
+
+              <span class="option-icon">
+                <i class="bi bi-buildings"></i>
+              </span>
+
+              <span>
+                جميع الشركات
+              </span>
+
+            </span>
+
+            @if (selectedBrand === 'all') {
+
+              <i class="bi bi-check-circle-fill check-icon"></i>
+
+            }
+
+          </button>
+
+
+          @for (b of brands; track b._id) {
+
+            <button
+              class="filter-option"
+              [class.active]="selectedBrand === b._id"
+              (click)="filterByBrand(b._id)">
+
+              <span class="option-right">
+
+                <span class="option-dot"></span>
+
+                <span class="brand-name">
+                  {{ b.name }}
+                </span>
+
+              </span>
+
+              @if (selectedBrand === b._id) {
+
+                <i class="bi bi-check-circle-fill check-icon"></i>
+
+              }
+
+            </button>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- TRUST BOX -->
+
+      <div class="trust-box">
+
+        <div class="trust-icon">
+          <i class="bi bi-shield-check"></i>
+        </div>
+
+        <div>
+
+          <strong>
+            شراء آمن وموثوق
+          </strong>
+
+          <span>
+            جميع المنتجات يتم مراجعتها بعناية
+          </span>
+
+        </div>
+
+      </div>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         PRODUCTS AREA
+    ================================================== -->
+
+    <section class="products-area">
+
+
+      <!-- TOOLBAR -->
+
+      <div class="products-toolbar">
+
+        <div class="results-info">
+
+          <span>
+            المنتجات
+          </span>
+
+          <strong>
+            {{ products.length }}
+          </strong>
+
+          <small>
+            من أصل {{ totalMatching }}
+          </small>
+
+        </div>
+
+
+        <div class="sort-wrapper">
+
+          <label>
+            <i class="bi bi-sort-down"></i>
+            ترتيب:
+          </label>
+
+          <select
+            [value]="sortBy"
+            (change)="onSortChange($event)">
+
+            <option value="latest">
+              الأحدث
+            </option>
+
+            <option value="price_asc">
+              السعر الأقل
+            </option>
+
+            <option value="price_desc">
+              السعر الأعلى
+            </option>
+
+            <option value="popular">
+              الأكثر طلباً
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =================================================
+           LOADING
+      ================================================== -->
+
+      @if (requestError) {
+        <div class="empty-state" role="alert">
+          <h2>تعذر تحميل المنتجات</h2>
+          <p>{{ requestError }}</p>
+          <button class="reset-btn" type="button" (click)="loadProducts()">إعادة المحاولة</button>
+        </div>
+      }
+
+      @if (!requestError && loading) {
+
+        <div class="products-grid">
+
+          @for (
+            item of [1,2,3,4,5,6,7,8,9];
+            track item
+          ) {
+
+            <article class="product-card skeleton-card">
+
+              <div class="skeleton-product-image skeleton"></div>
+
+              <div class="skeleton-content">
+
+                <div class="skeleton-line sku skeleton"></div>
+
+                <div class="skeleton-line title skeleton"></div>
+
+                <div class="skeleton-line title short skeleton"></div>
+
+                <div class="skeleton-price skeleton"></div>
+
+                <div class="skeleton-button skeleton"></div>
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      }
+
+
+
+      <!-- =================================================
+           EMPTY
+      ================================================== -->
+
+      @else if (!requestError && products.length === 0) {
+
+        <div class="empty-state">
+
+          <div class="empty-state-icon">
+
+            <i class="bi bi-search"></i>
+
+          </div>
+
+          <h2>
+            لم نجد منتجات مطابقة
+          </h2>
+
+          <p>
+            حاول تغيير كلمات البحث أو اختيار قسم مختلف
+          </p>
+
+          <button
+            class="reset-btn"
+            (click)="resetFilters()">
+
+            <i class="bi bi-arrow-counterclockwise"></i>
+
+            عرض كل المنتجات
+
+          </button>
+
+        </div>
+
+      }
+
+
+
+      <!-- =================================================
+           PRODUCTS
+      ================================================== -->
+
+      @else if (!requestError) {
+
+        <div class="products-grid">
+
+          @for (
+            prod of products;
+            track prod._id || prod.sku
+          ) {
+
+            <article class="product-card">
+
+
+              <!-- PRODUCT IMAGE -->
+
+              <div class="product-image">
+
+                @if (prod.badge) {
+
+                  <span class="product-badge">
+                    {{ prod.badge }}
+                  </span>
+
+                }
+
+
+                <button
+                  type="button"
+                  class="favorite-btn"
+                  [class.active]="isFav(prod)"
+                  (click)="toggleFavorite(prod, $event)">
+
+                  <i
+                    class="bi"
+                    [class.bi-heart-fill]="isFav(prod)"
+                    [class.bi-heart]="!isFav(prod)">
+                  </i>
+
+                </button>
+
+
+                <a class="product-image-link" href="#" (click)="$event.preventDefault(); openProduct(prod)">
+
+                  <img
+                    [src]="prod.image"
+                    [alt]="prod.name"
+                    loading="lazy"
+                  >
+
+                </a>
+
+              </div>
+
+
+
+              <!-- PRODUCT INFO -->
+
+              <div class="product-info">
+
+                <span class="product-sku">
+                  SKU: {{ prod.sku }}
+                </span>
+
+
+                <h3>
+
+                  <a href="#" (click)="$event.preventDefault(); openProduct(prod)">
+
+                    {{ prod.name }}
+
+                  </a>
+
+                </h3>
+
+
+                <div class="product-meta">
+
+                  <div class="price-area">
+
+                    <strong>
+                      {{ prod.price | number }}
+                    </strong>
+
+                    <span>
+                      ر.س
+                    </span>
+
+                    @if (
+                      prod.oldPrice &&
+                      prod.oldPrice > prod.price
+                    ) {
+
+                      <del>
+                        {{ prod.oldPrice | number }}
+                      </del>
+
+                    }
+
+                  </div>
+
+
+                  <span
+                    class="stock-status"
+                    [class.out]="prod.stock <= 0">
+
+                    <i
+                      class="bi"
+                      [class.bi-check-circle-fill]="prod.stock > 0"
+                      [class.bi-x-circle-fill]="prod.stock <= 0">
+                    </i>
+
+                    {{
+                      prod.stock > 0
+                        ? 'متوفر'
+                        : 'نفد'
+                    }}
+
+                  </span>
+
+                </div>
+
+
+                <button
+                  type="button"
+                  class="add-cart-btn"
+                  (click)="addToCart(prod, $event)"
+                  [disabled]="prod.stock <= 0">
+
+                  <i class="bi bi-cart-plus"></i>
+
+                  <span>
+                    {{
+                      prod.stock > 0
+                        ? 'إضافة إلى السلة'
+                        : 'غير متوفر'
+                    }}
+                  </span>
+
+                </button>
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      }
+
+      @if (!loading && totalPages > 1) {
+        <nav class="product-pagination" aria-label="صفحات المنتجات">
+          <span>عرض {{ (currentPage - 1) * pageSize + 1 }}–{{ (currentPage - 1) * pageSize + products.length }} من {{ totalMatching }}</span>
+          <div class="pagination-controls">
+            <button type="button" [disabled]="currentPage <= 1" (click)="goToPage(currentPage - 1)">السابق</button>
+            @for (page of visiblePages; track page) {
+              <button
+                type="button"
+                [class.active]="page === currentPage"
+                [attr.aria-current]="page === currentPage ? 'page' : null"
+                (click)="goToPage(page)">{{ page }}</button>
+            }
+            <button type="button" [disabled]="currentPage >= totalPages" (click)="goToPage(currentPage + 1)">التالي</button>
+          </div>
+        </nav>
+      }
+
+    </section>
+
+  </main>
+
+</div>

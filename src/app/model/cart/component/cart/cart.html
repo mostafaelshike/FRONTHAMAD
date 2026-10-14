@@ -1,0 +1,620 @@
+<div class="cart-page" dir="rtl">
+
+  @if (showClearCartDialog) {
+    <div class="clear-dialog-backdrop" (click)="closeClearCartDialog()" role="presentation">
+      <section
+        class="clear-dialog"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="clear-cart-title"
+        aria-describedby="clear-cart-description"
+        (click)="$event.stopPropagation()">
+
+        <div class="clear-dialog-icon"><i class="bi bi-trash3"></i></div>
+        <h2 id="clear-cart-title">تفريغ سلة المشتريات؟</h2>
+        <p id="clear-cart-description">
+          سيتم حذف {{ totalItems }} منتجات من السلة. لا يمكن التراجع عن هذا الإجراء.
+        </p>
+
+        <div class="clear-dialog-actions">
+          <button type="button" class="keep-cart-btn" (click)="closeClearCartDialog()" [disabled]="clearingCart">
+            الاحتفاظ بالسلة
+          </button>
+          <button type="button" class="confirm-clear-btn" (click)="confirmClearCart()" [disabled]="clearingCart">
+            @if (clearingCart) {
+              <i class="bi bi-arrow-repeat spin"></i> جارٍ التفريغ...
+            } @else {
+              <i class="bi bi-trash3"></i> نعم، فرّغ السلة
+            }
+          </button>
+        </div>
+      </section>
+    </div>
+  }
+
+  <!-- ================= STEPS ================= -->
+
+  <div class="steps">
+
+    <div
+      class="step"
+      [class.active]="currentStep === 1"
+      [class.completed]="currentStep > 1"
+      (click)="goToStep(1)">
+
+      <div class="step-icon">🛒</div>
+
+      <div class="step-content">
+        <strong>1. سلة المشتريات</strong>
+        <span>فحص وتأكيد المنتجات</span>
+      </div>
+
+    </div>
+
+
+    <div class="step-line"></div>
+
+
+    <div
+      class="step"
+      [class.active]="currentStep === 2"
+      [class.completed]="currentStep > 2"
+      (click)="goToStep(2)">
+
+      <div class="step-icon">🚚</div>
+
+      <div class="step-content">
+        <strong>2. بيانات الشحن والتوصيل</strong>
+        <span>عنوان التسليم والدفع</span>
+      </div>
+
+    </div>
+
+
+    <div class="step-line"></div>
+
+
+    <div
+      class="step"
+      [class.active]="currentStep === 3"
+      (click)="goToStep(3)">
+
+      <div class="step-icon">✓</div>
+
+      <div class="step-content">
+        <strong>3. التأكيد والدفع عند الاستلام</strong>
+        <span>مراجعة الطلب والتأكيد</span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= HEADER ================= -->
+
+  <div class="page-header">
+
+    <div>
+      <div class="breadcrumb">
+        الرئيسية
+        <span>←</span>
+        سلة المشتريات
+      </div>
+
+      <h1 *ngIf="currentStep === 1">
+        سلة المشتريات والمستلزمات الطبية
+      </h1>
+
+      <h1 *ngIf="currentStep === 2">
+        بيانات الشحن والتوصيل
+      </h1>
+
+      <h1 *ngIf="currentStep === 3">
+        التأكيد والدفع عند الاستلام
+      </h1>
+
+      <p *ngIf="currentStep === 1">
+        تسوق طبي آمن ومحمى لكافة المدن
+      </p>
+
+      <p *ngIf="currentStep === 2">
+        أدخل بياناتك لإتمام عملية التوصيل
+      </p>
+
+      <p *ngIf="currentStep === 3">
+        راجع بيانات طلبك قبل التأكيد النهائي
+      </p>
+    </div>
+
+    <button
+      class="clear-btn"
+      *ngIf="currentStep === 1 && cartItems.length > 0"
+      (click)="clearCart()">
+
+      🗑 تفريغ السلة بالكامل
+
+    </button>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- ================= STEP 1 ======================== -->
+  <!-- ================================================= -->
+
+  <div *ngIf="currentStep === 1">
+
+    <!-- Empty Cart -->
+
+    <div class="empty-cart" *ngIf="cartItems.length === 0">
+
+      <div class="empty-icon">🛒</div>
+
+      <h2>السلة فارغة</h2>
+
+      <p>لم تقم بإضافة أي منتجات إلى السلة حتى الآن</p>
+
+    </div>
+
+
+    <!-- Cart Content -->
+
+    <div
+      class="content"
+      *ngIf="cartItems.length > 0">
+
+      <!-- Products -->
+
+      <section class="products-section">
+
+        <div class="security-notice">
+
+          <div class="notice-icon">🛡️</div>
+
+          <div>
+            <h3>ضمان المعاينة والفحص السري قبل الدفع</h3>
+
+            <p>
+              يمكنك فحص المنتجات والتأكد من سلامتها قبل استلام الطلب.
+            </p>
+          </div>
+
+          <span class="notice-badge">ضمان موثوق</span>
+
+        </div>
+
+
+        <div class="products-header">
+
+          <h2>المنتجات في السلة</h2>
+
+          <span>{{ totalItems }} قطع طبية</span>
+
+        </div>
+
+
+        <!-- Product Card -->
+
+        <div
+          class="product-card"
+          *ngFor="let item of cartItems">
+
+          <div class="product-image">
+
+            <img
+              [src]="item.image"
+              [alt]="item.name">
+
+            <span class="image-badge">CE</span>
+
+          </div>
+
+
+          <div class="product-info">
+
+            <div class="product-top">
+
+              <span class="tag">
+                {{ item.tag }}
+              </span>
+
+              <span class="product-code">
+                كود: MED-{{ item.id }}02
+              </span>
+
+            </div>
+
+            <h2>{{ item.name }}</h2>
+
+            <p>{{ item.description }}</p>
+
+
+            <div class="product-bottom">
+
+              <button class="favorite-btn">
+                ♡ نقل للمفضلة
+              </button>
+
+              <button
+                class="delete-btn"
+                (click)="removeItem(item.id)">
+
+                🗑 حذف
+
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="product-price">
+
+            <strong>
+              {{ item.price | number:'1.0-0' }}
+              <small>ر.س</small>
+            </strong>
+
+
+            <div class="quantity-box">
+
+              <button
+                (click)="decreaseQuantity(item)">
+                −
+              </button>
+
+              <span>{{ item.quantity }}</span>
+
+              <button
+                (click)="increaseQuantity(item)">
+                +
+              </button>
+
+            </div>
+
+
+            <p>
+              المجموع:
+              <b>
+                {{ getItemTotal(item) | number:'1.0-0' }} ر.س
+              </b>
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="next-btn"
+          (click)="nextStep()">
+
+          متابعة إلى بيانات الشحن
+          <span>←</span>
+
+        </button>
+
+      </section>
+
+
+      <!-- Summary -->
+
+      <aside class="summary-card">
+
+        <div class="summary-title">
+
+          <h2>ملخص الطلب</h2>
+
+          <span>{{ totalItems }} قطع</span>
+
+        </div>
+
+
+        <div class="summary-row">
+          <span>مجموع المنتجات الطبية</span>
+
+          <strong>
+            {{ subtotal | number:'1.0-0' }} ر.س
+          </strong>
+        </div>
+
+
+        <div class="summary-row">
+          <span>تكلفة الشحن والتوصيل</span>
+
+          <strong class="green">مجاني</strong>
+        </div>
+
+
+        <div class="summary-row">
+          <span>ضريبة القيمة المضافة (15%)</span>
+
+          <strong>
+            {{ tax | number:'1.0-0' }} ر.س
+          </strong>
+        </div>
+
+
+        <div class="summary-divider"></div>
+
+
+        <div class="total-box">
+
+          <span>المبلغ الإجمالي المستحق:</span>
+
+          <strong>
+            {{ total | number:'1.0-0' }}
+            <small>ر.س</small>
+          </strong>
+
+        </div>
+
+
+        <div class="free-shipping">
+          🚚 الشحن والتوصيل مجاني
+        </div>
+
+
+        <button
+          class="checkout-btn"
+          (click)="nextStep()">
+
+          إتمام الطلب
+          <span>←</span>
+
+        </button>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ================================================= -->
+  <!-- ================= STEP 2 ======================== -->
+  <!-- ================================================= -->
+
+  <div
+    *ngIf="currentStep === 2"
+    class="form-page">
+
+    <div class="form-card">
+
+      <div class="form-card-header">
+        <h2>بيانات الشحن والتوصيل</h2>
+
+        <p>
+          من فضلك أدخل البيانات التالية لإتمام توصيل طلبك
+        </p>
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label>الاسم بالكامل</label>
+
+          <input
+            type="text"
+            placeholder="أدخل اسمك بالكامل"
+            [(ngModel)]="shippingData.name"
+            minlength="2"
+            maxlength="100"
+            autocomplete="name">
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>رقم الجوال</label>
+
+          <input
+            type="tel"
+            placeholder="05xxxxxxxx"
+            [(ngModel)]="shippingData.phone"
+            minlength="8"
+            maxlength="20"
+            autocomplete="tel">
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>المدينة</label>
+
+          <select [(ngModel)]="shippingData.city" required>
+
+            <option value="">اختر المدينة</option>
+            <option value="الرياض">الرياض</option>
+            <option value="جدة">جدة</option>
+            <option value="الدمام">الدمام</option>
+            <option value="مكة">مكة</option>
+            <option value="المدينة المنورة">المدينة المنورة</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label>العنوان بالتفصيل</label>
+
+          <textarea
+            rows="4"
+            placeholder="اسم الشارع، الحي، رقم المبنى..."
+            [(ngModel)]="shippingData.address"
+            minlength="5"
+            maxlength="300">
+          </textarea>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-notice">
+        🛡️ بياناتك محمية ولن يتم استخدامها إلا لتوصيل طلبك.
+      </div>
+
+
+      <div class="step-buttons">
+
+        <button
+          class="back-btn"
+          (click)="previousStep()">
+
+          → رجوع للسلة
+
+        </button>
+
+        <button
+          class="next-btn"
+          (click)="nextStep()">
+
+          متابعة للتأكيد
+          <span>←</span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ================================================= -->
+  <!-- ================= STEP 3 ======================== -->
+  <!-- ================================================= -->
+
+  <div
+    *ngIf="currentStep === 3"
+    class="form-page">
+
+    <div class="confirmation-layout">
+
+      <div class="confirmation-card">
+
+        <div class="confirm-icon">✓</div>
+
+        <h2>مراجعة وتأكيد الطلب</h2>
+
+        <p class="confirm-subtitle">
+          تأكد من صحة بياناتك قبل إرسال الطلب
+        </p>
+
+
+        <div class="info-box">
+
+          <div class="info-row">
+            <span>الاسم بالكامل</span>
+            <strong>{{ shippingData.name || 'لم يتم إدخال الاسم' }}</strong>
+          </div>
+
+          <div class="info-row">
+            <span>رقم الجوال</span>
+            <strong>{{ shippingData.phone || 'لم يتم إدخال الجوال' }}</strong>
+          </div>
+
+          <div class="info-row">
+            <span>المدينة</span>
+            <strong>{{ shippingData.city || 'لم يتم اختيار المدينة' }}</strong>
+          </div>
+
+          <div class="info-row">
+            <span>العنوان</span>
+            <strong>{{ shippingData.address || 'لم يتم إدخال العنوان' }}</strong>
+          </div>
+
+        </div>
+
+
+        <div class="payment-method">
+
+          <span class="payment-icon">💵</span>
+
+          <div>
+            <strong>الدفع عند الاستلام</strong>
+            <p>ادفع قيمة الطلب نقدًا عند وصول المندوب</p>
+          </div>
+
+        </div>
+
+
+        <div class="step-buttons">
+
+          <button
+            class="back-btn"
+            (click)="previousStep()">
+
+            → تعديل البيانات
+
+          </button>
+
+          <button
+            type="button"
+            class="confirm-btn"
+            [disabled]="submittingOrder"
+            (click)="submitOrder()">
+            @if (submittingOrder) {
+              <span>جارٍ تأكيد الطلب...</span>
+            } @else {
+              <span>تأكيد الطلب ✓</span>
+            }
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="final-summary">
+
+        <h2>ملخص الطلب</h2>
+
+        <div class="summary-row">
+          <span>عدد المنتجات</span>
+          <strong>{{ totalItems }} قطع</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>مجموع المنتجات</span>
+          <strong>{{ subtotal | number:'1.0-0' }} ر.س</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>الشحن</span>
+          <strong class="green">مجاني</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>الضريبة</span>
+          <strong>{{ tax | number:'1.0-0' }} ر.س</strong>
+        </div>
+
+        <div class="summary-divider"></div>
+
+        <div class="final-total">
+          <span>الإجمالي النهائي</span>
+
+          <strong>
+            {{ total | number:'1.0-0' }}
+            <small>ر.س</small>
+          </strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

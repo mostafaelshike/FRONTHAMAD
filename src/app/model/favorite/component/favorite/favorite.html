@@ -1,0 +1,471 @@
+<app-product-details-modal [product]="selectedProduct" (closed)="selectedProduct = null"></app-product-details-modal>
+
+<div class="favorite-page" dir="rtl">
+
+  <!-- =========================
+       TOP BAR
+  ========================== -->
+
+  <div class="top-bar">
+
+    <div class="container top-content">
+
+      <span>
+        <i class="bi bi-house"></i>
+        الرئيسية
+      </span>
+
+      <span class="favorite-count">
+        قائمة المفضلة
+        <strong>{{ products.length }}</strong>
+      </span>
+
+      <div class="shipping-message">
+        <i class="bi bi-truck"></i>
+        ضمان شحن سريع وحجز فوري للدفع عند الاستلام
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       HERO
+  ========================== -->
+
+  <section class="favorite-hero">
+
+    <div class="container hero-box">
+
+      <div class="hero-icon">
+        <i class="bi bi-heart-fill"></i>
+      </div>
+
+
+      <div class="hero-text">
+
+        <div class="hero-small">
+
+          <i class="bi bi-heart-fill"></i>
+
+          الدفع نقداً عند الاستلام فقط
+
+        </div>
+
+        <h1>
+          قائمة المستلزمات الطبية المحفوظة
+        </h1>
+
+        <p>
+          جميع الأجهزة الطبية ومعدات الرعاية التي حفظتها هنا
+          لمراجعتها وشرائها لاحقاً، يمكنك معاينتها وفحصها قبل
+          السداد لضمان تجربة شراء آمنة وموثوقة.
+        </p>
+
+      </div>
+
+
+      <div class="hero-actions">
+
+        <button type="button" (click)="addAllToCart()" [disabled]="filteredProducts.length === 0">
+          <i class="bi bi-cart-plus"></i>
+          إضافة {{ filteredProducts.length }} منتجات للسلة
+        </button>
+
+        <span class="saved-summary">
+          <i class="bi bi-filter"></i>
+          {{ products.length }} منتج محفوظ
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       PRODUCTS
+  ========================== -->
+
+  <section class="products-section">
+
+    <div class="container">
+
+
+      <!-- Filters -->
+
+      <div class="products-toolbar">
+
+        <div class="categories-filter">
+
+          <button type="button" [class.active]="selectedCategory === 'all'" (click)="selectedCategory = 'all'">
+
+            <i class="bi bi-heart-fill"></i>
+
+            جميع المحفوظات
+
+            <span>
+              ({{ products.length }})
+            </span>
+
+          </button>
+
+          @for (category of categoryFilters; track category.id) {
+            <button type="button" [class.active]="selectedCategory === category.id" (click)="selectedCategory = category.id">
+              {{ category.name }}
+              <span>({{ countForCategory(category.id) }})</span>
+            </button>
+          }
+
+        </div>
+
+
+        <label class="sort-control">
+          <i class="bi bi-sort-down"></i>
+          <span>الترتيب</span>
+          <select [value]="sortBy" (change)="setSort($event)" aria-label="ترتيب المنتجات المحفوظة">
+            <option value="default">الافتراضي</option>
+            <option value="price-low">السعر: الأقل أولاً</option>
+            <option value="price-high">السعر: الأعلى أولاً</option>
+          </select>
+        </label>
+
+      </div>
+
+
+      <!-- Products Grid -->
+
+      <div class="products-grid">
+
+        <div
+          class="product-card"
+          *ngFor="let product of filteredProducts"
+        >
+
+          <!-- Image -->
+
+          <div class="product-image">
+
+            <span class="product-badge">
+              {{ product.badge }}
+            </span>
+
+            <span
+              class="discount"
+              *ngIf="product.discount">
+
+              {{ product.discount }}
+
+            </span>
+
+
+            <button type="button" class="image-open" (click)="openProduct(product)" [attr.aria-label]="'عرض تفاصيل ' + product.name">
+              <img [src]="product.image" [alt]="product.name">
+            </button>
+
+
+            <!-- Remove -->
+
+            <button
+              class="remove-button"
+              (click)="removeFavorite(product)"
+              title="إزالة من المفضلة">
+
+              <i class="bi bi-heart-fill"></i>
+
+            </button>
+
+          </div>
+
+
+          <!-- Product information -->
+
+          <div class="product-info">
+
+            <div class="product-brand">
+
+              <span>
+                {{ product.company }}
+              </span>
+
+              <small>
+                {{ product.brand }}
+              </small>
+
+            </div>
+
+
+            <div class="sku">
+
+              SKU:
+              {{ product.sku }}
+
+            </div>
+
+
+            <h2>
+              <button type="button" class="product-name" (click)="openProduct(product)">
+                {{ product.name }}
+              </button>
+            </h2>
+
+
+            <!-- Rating -->
+
+            <div class="rating">
+
+              <span>
+                ★★★★★
+              </span>
+
+              <small>
+                {{ product.rating }}
+                ({{ product.reviews }} تقييم)
+              </small>
+
+            </div>
+
+
+            <!-- Info -->
+
+            <div class="product-status">
+
+              <span>
+                <i class="bi bi-check-circle"></i>
+
+                {{ product.stockLabel }}
+
+              </span>
+
+              <span>
+                <i class="bi bi-truck"></i>
+
+                {{ product.shipping }}
+
+              </span>
+
+            </div>
+
+
+            <!-- Price -->
+
+            <div class="price-section">
+
+              <span class="price-label">
+                السعر
+              </span>
+
+              <div>
+
+                <del>
+                  {{ product.oldPrice }} ريال
+                </del>
+
+                <strong>
+                  {{ product.price }}
+                  <small>ريال</small>
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <!-- Payment -->
+
+            <div class="payment-info">
+
+              <i class="bi bi-credit-card"></i>
+
+              الدفع نقداً عند الاستلام لفحص وتجربة قبل الدفع
+
+            </div>
+
+
+            <!-- Actions -->
+
+            <div class="product-actions">
+
+              <button
+                class="delete-btn"
+                (click)="removeFavorite(product)">
+
+                <i class="bi bi-trash"></i>
+
+              </button>
+
+
+              <button
+                class="cart-btn"
+                (click)="addToCart(product)">
+
+                <i class="bi bi-bag-plus"></i>
+
+                أضف للسلة
+                (الدفع بالاستلام)
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Empty state -->
+
+      <div
+        class="empty-favorites"
+        *ngIf="products.length === 0">
+
+        <i class="bi bi-heart"></i>
+
+        <h2>
+          قائمة المفضلة فارغة
+        </h2>
+
+        <p>
+          لم تقم بحفظ أي منتجات في المفضلة حتى الآن.
+        </p>
+
+      </div>
+
+      <div class="empty-favorites" *ngIf="products.length > 0 && filteredProducts.length === 0">
+        <i class="bi bi-funnel"></i>
+        <h2>لا توجد منتجات في هذا القسم</h2>
+        <p>اختر قسماً آخر لعرض المنتجات المحفوظة.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       WHY US
+  ========================== -->
+
+  <section class="why-section">
+
+    <div class="container">
+
+      <div class="section-title">
+
+        <span>
+          بروتوكول الأمان والمطابقة
+        </span>
+
+        <h2>
+          لماذا يثق الأطباء والممارسون في "سوق طبي"؟
+        </h2>
+
+        <p>
+          نوفر أجهزة ومعدات طبية فقط ضمن إطار من الأمان والجودة
+          والشفافية مع تسهيلات الشراء والدفع عند الاستلام.
+        </p>
+
+      </div>
+
+
+      <div class="why-grid">
+
+
+        <!-- Card 1 -->
+
+        <div class="why-card">
+
+          <div class="why-icon">
+
+            <i class="bi bi-cash-stack"></i>
+
+          </div>
+
+          <h3>
+            الدفع عند الاستلام فقط
+          </h3>
+
+          <p>
+            لا نطلب منك أي بطاقات ائتمانية مسبقة،
+            ادفع فقط عند استلام وفحص المنتج.
+          </p>
+
+        </div>
+
+
+        <!-- Card 2 -->
+
+        <div class="why-card">
+
+          <div class="why-icon">
+
+            <i class="bi bi-patch-check"></i>
+
+          </div>
+
+          <h3>
+            شهادات CE و ISO
+          </h3>
+
+          <p>
+            جميع المنتجات والمستلزمات الطبية مطابقة
+            للمواصفات والمعايير الطبية والدولية.
+          </p>
+
+        </div>
+
+
+        <!-- Card 3 -->
+
+        <div class="why-card">
+
+          <div class="why-icon">
+
+            <i class="bi bi-shield-check"></i>
+
+          </div>
+
+          <h3>
+            ضمان ساري وعالي
+          </h3>
+
+          <p>
+            ضمان شامل على المنتجات مع خدمة ما بعد البيع
+            ودعم مستمر للعملاء.
+          </p>
+
+        </div>
+
+
+        <!-- Card 4 -->
+
+        <div class="why-card">
+
+          <div class="why-icon">
+
+            <i class="bi bi-truck"></i>
+
+          </div>
+
+          <h3>
+            تغليف محكم وحماية مزدوجة
+          </h3>
+
+          <p>
+            يتم تغليف المنتجات الطبية بشكل آمن ومحكم
+            للحفاظ عليها أثناء الشحن والنقل.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

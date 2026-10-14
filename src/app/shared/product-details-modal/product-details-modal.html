@@ -1,0 +1,80 @@
+@if (product; as item) {
+  <div class="product-modal-backdrop" (click)="onBackdropClick($event)" role="presentation">
+    <section class="product-modal" role="dialog" aria-modal="true" [attr.aria-label]="item.name" dir="rtl">
+      <button type="button" class="modal-close" (click)="closed.emit()" aria-label="إغلاق التفاصيل">
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <div class="modal-gallery">
+        @if (discountPercent) {
+          <span class="modal-discount">خصم {{ discountPercent }}٪</span>
+        }
+        @if (item.image) {
+          <img [src]="item.image" [alt]="item.name">
+        } @else {
+          <div class="image-placeholder"><i class="bi bi-heart-pulse"></i></div>
+        }
+        <span class="verified-label"><i class="bi bi-patch-check-fill"></i> منتج طبي موثوق</span>
+      </div>
+
+      <div class="modal-content">
+        <div class="product-kicker">
+          <span>{{ categoryName }}</span>
+          <span>{{ brandName }}</span>
+        </div>
+
+        <h2>{{ item.name }}</h2>
+
+        <div class="product-code">
+          <span>رقم المنتج</span>
+          <strong>{{ item.sku || 'غير متوفر' }}</strong>
+        </div>
+
+        @if (item.description || item.shortDescription) {
+          <p class="product-description">{{ item.shortDescription || item.description }}</p>
+        }
+
+        <div class="price-row">
+          <strong>{{ item.price | number }} <small>ر.س</small></strong>
+          @if (item.oldPrice && item.oldPrice > item.price) {
+            <del>{{ item.oldPrice | number }} ر.س</del>
+          }
+        </div>
+
+        <div class="stock-row" [class.stock-out]="item.stock <= 0">
+          <i class="bi" [class.bi-check-circle-fill]="item.stock > 0" [class.bi-x-circle-fill]="item.stock <= 0"></i>
+          {{ item.stock > 0 ? 'متوفر في المخزون' : 'نفد من المخزون' }}
+        </div>
+
+        @if (item.specifications?.length) {
+          <div class="specifications">
+            <h3>مواصفات المنتج</h3>
+            @for (specification of item.specifications; track specification.key) {
+              <div class="specification-row">
+                <span>{{ specification.key }}</span>
+                <strong>{{ specification.value }}</strong>
+              </div>
+            }
+          </div>
+        }
+
+        <div class="modal-actions">
+          <div class="quantity-control" aria-label="الكمية">
+            <button type="button" (click)="increaseQuantity()" [disabled]="item.stock <= 0" aria-label="زيادة الكمية">+</button>
+            <span>{{ quantity }}</span>
+            <button type="button" (click)="decreaseQuantity()" [disabled]="item.stock <= 0" aria-label="تقليل الكمية">−</button>
+          </div>
+
+          <button type="button" class="add-to-cart" (click)="addToCart()" [disabled]="busy || item.stock <= 0">
+            <i class="bi bi-cart-plus"></i>
+            {{ item.stock > 0 ? 'أضف إلى السلة' : 'غير متوفر' }}
+          </button>
+
+          <button type="button" class="favorite-toggle" [class.active]="wishlistService.isFavorite(item._id || item.id || '')" (click)="toggleFavorite()" [disabled]="busy" aria-label="إضافة إلى المفضلة">
+            <i class="bi" [class.bi-heart-fill]="wishlistService.isFavorite(item._id || item.id || '')" [class.bi-heart]="!wishlistService.isFavorite(item._id || item.id || '')"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+}

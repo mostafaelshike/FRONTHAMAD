@@ -1,0 +1,755 @@
+<div class="details-page" dir="rtl">
+
+  <!-- =====================================
+       BREADCRUMB
+  ====================================== -->
+
+  <div class="top-bar">
+    <div class="container">
+
+      <span>
+        الرئيسية
+        <i class="bi bi-chevron-left"></i>
+        أجهزة القياس والتشخيص
+        <i class="bi bi-chevron-left"></i>
+        {{ product.name }}
+      </span>
+
+      <span>
+        <i class="bi bi-shield-check"></i>
+        منتج أصلي
+      </span>
+
+    </div>
+  </div>
+
+
+  <!-- =====================================
+       PRODUCT DETAILS
+  ====================================== -->
+
+  <section class="product-main">
+
+    <div class="container product-layout">
+
+
+      <!-- =================================
+           PRODUCT INFO
+      ================================== -->
+
+      <div class="product-info">
+
+
+        <div class="brand-row">
+
+          <span class="brand">
+            {{ product.brand }}
+          </span>
+
+          <span class="sku">
+            كود المنتج:
+            {{ product.sku }}
+          </span>
+
+        </div>
+
+
+        <h1>
+          {{ product.name }}
+        </h1>
+
+
+        <!-- Rating -->
+
+        <div class="rating-row">
+
+          <span class="rating-number">
+            {{ product.rating }}
+          </span>
+
+          <span class="stars">
+
+            <i
+              class="bi bi-star-fill"
+              *ngFor="let star of [1,2,3,4,5]">
+            </i>
+
+          </span>
+
+          <span class="reviews">
+            {{ product.reviews }} تقييم
+          </span>
+
+          <span class="verified">
+            <i class="bi bi-patch-check-fill"></i>
+            موثق
+          </span>
+
+        </div>
+
+
+        <!-- Description -->
+
+        <p class="description">
+          {{ product.description }}
+        </p>
+
+
+        <!-- Price -->
+
+        <div class="price-box">
+
+          <div class="price-top">
+
+            <strong>
+              {{ product.price }}
+              <small>ريال سعودي</small>
+            </strong>
+
+            <del>
+              {{ product.oldPrice }} ريال
+            </del>
+
+            <span class="discount">
+              وفر {{ product.discount }}
+            </span>
+
+          </div>
+
+
+          <p>
+            <i class="bi bi-shield-check"></i>
+            السعر شامل الضريبة وضمان المنتج
+          </p>
+
+        </div>
+
+
+        <!-- COD -->
+
+        <div class="cod-box">
+
+          <div class="cod-icon">
+            <i class="bi bi-cash-stack"></i>
+          </div>
+
+          <div>
+
+            <strong>
+              الدفع نقداً عند الاستلام فقط (COD)
+            </strong>
+
+            <p>
+              لا يتطلب الدفع مقدماً، يصل طلبك حتى باب المنزل،
+              افحص المنتج قبل الدفع.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- Advantages -->
+
+        <div class="advantages">
+
+          <div *ngFor="let advantage of advantages">
+
+            <i
+              class="bi"
+              [ngClass]="advantage.icon">
+            </i>
+
+            <strong>
+              {{ advantage.title }}
+            </strong>
+
+            <span>
+              {{ advantage.description }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Stock -->
+
+        <div class="stock">
+
+          <span>
+            <i class="bi bi-check-circle-fill"></i>
+            متوفر في المخزن
+          </span>
+
+          <small>
+            يتم الشحن خلال 24-48 ساعة
+          </small>
+
+        </div>
+
+
+        <!-- Cart -->
+
+        <div class="cart-area">
+
+          <div class="quantity">
+
+            <button
+              (click)="decreaseQuantity()">
+              −
+            </button>
+
+            <span>
+              {{ quantity }}
+            </span>
+
+            <button
+              (click)="increaseQuantity()">
+              +
+            </button>
+
+          </div>
+
+
+          <button
+            class="add-cart"
+            (click)="addToCart()">
+
+            <i class="bi bi-cart-plus"></i>
+
+            أضف للسلة
+            (الدفع عند المعاينة)
+
+          </button>
+
+
+          <button class="fast-order">
+
+            <i class="bi bi-lightning-charge-fill"></i>
+
+            طلب سريع فوري
+
+          </button>
+
+
+          <button class="share">
+
+            <i class="bi bi-share"></i>
+
+          </button>
+
+
+          <button class="favorite">
+
+            <i class="bi bi-heart"></i>
+
+          </button>
+
+        </div>
+
+
+        <div class="lot-number">
+          LOT-2025-016
+          <span>
+            ضمان سنة من الوكيل
+          </span>
+        </div>
+
+      </div>
+
+
+      <!-- =================================
+           PRODUCT GALLERY
+      ================================== -->
+
+      <div class="gallery">
+
+
+        <div class="main-image">
+
+          <span class="image-badge">
+            <i class="bi bi-shield-check"></i>
+            فحص وضمان قبل الشحن
+          </span>
+
+          <img
+            [src]="selectedImage"
+            [alt]="product.name">
+
+        </div>
+
+
+        <!-- Thumbnails -->
+
+        <div class="thumbnails">
+
+          <button
+            *ngFor="let image of gallery"
+            [class.selected]="image === selectedImage"
+            (click)="selectImage(image)">
+
+            <img
+              [src]="image"
+              alt="صورة المنتج">
+
+          </button>
+
+        </div>
+
+
+        <!-- Certificates -->
+
+        <div class="gallery-certificates">
+
+          <span>
+            <i class="bi bi-patch-check"></i>
+            شهادة الجودة الأوروبية CE
+          </span>
+
+          <span>
+            <i class="bi bi-shield-check"></i>
+            مطابق للمواصفات الطبية
+          </span>
+
+          <span>
+            <i class="bi bi-award"></i>
+            ضمان معتمد
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       TABS / DESCRIPTION
+  ====================================== -->
+
+  <section class="description-section">
+
+    <div class="container">
+
+      <div class="tabs">
+
+        <button class="active">
+          <i class="bi bi-file-text"></i>
+          الوصف التفصيلي والسريع
+        </button>
+
+        <button>
+          <i class="bi bi-grid"></i>
+          المواصفات الفنية المعتمدة
+        </button>
+
+        <button>
+          <i class="bi bi-box-seam"></i>
+          محتويات العبوة الطبية
+        </button>
+
+        <button>
+          <i class="bi bi-info-circle"></i>
+          دليل الاستخدام والقياس الصحيح
+        </button>
+
+      </div>
+
+
+      <div class="description-content">
+
+
+        <!-- Description -->
+
+        <div class="description-text">
+
+          <h2>
+            دقة سريرية موثوقة في راحة منزلك وعيادتك
+          </h2>
+
+          <p>
+            يعد جهاز Omron M3 Comfort أحد أفضل الأجهزة التشخيصية الرقمية
+            المعتمدة عالمياً لقياس ضغط الدم ومعدل ضربات القلب بدقة وسهولة.
+          </p>
+
+          <p>
+            يتميز الجهاز بتقنية Intelli Wrap 360° التي تساعد على الحصول
+            على قراءة دقيقة من مختلف أوضاع وضع الكفة حول الذراع.
+          </p>
+
+
+          <div class="features-box">
+
+            <div
+              *ngFor="let feature of features">
+
+              <i
+                class="bi"
+                [ngClass]="feature.icon">
+              </i>
+
+              <div>
+
+                <h3>
+                  {{ feature.title }}
+                </h3>
+
+                <p>
+                  {{ feature.description }}
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Guide -->
+
+        <div class="guide-card">
+
+          <span>
+            تقنية القياس المتقدمة
+          </span>
+
+          <h2>
+            سوار Intelli Wrap 360°
+          </h2>
+
+          <p>
+            السوار مصمم بطريقة تساعد على وضعه بشكل صحيح حول الذراع،
+            مما يساهم في الحصول على نتائج أكثر دقة.
+          </p>
+
+          <img
+            src="assets/images/products/intelli-wrap.jpg"
+            alt="Intelli Wrap">
+
+          <small>
+            <i class="bi bi-check-circle"></i>
+            معتمد طبياً وسهل الاستخدام
+          </small>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       GUARANTEE
+  ====================================== -->
+
+  <section class="guarantee">
+
+    <div class="container">
+
+      <div class="section-title">
+
+        <span>
+          تسوق آمن وموثوق
+        </span>
+
+        <h2>
+          ضمانات سوق طبي للمعدات الطبية
+        </h2>
+
+        <p>
+          نحرص على توفير أفضل المنتجات والخدمات مع ضمان الجودة.
+        </p>
+
+      </div>
+
+
+      <div class="guarantee-grid">
+
+        <div class="guarantee-card">
+
+          <i class="bi bi-credit-card"></i>
+
+          <h3>
+            حق المعاينة والتشغيل قبل السداد
+          </h3>
+
+          <p>
+            افحص الجهاز والمنتج قبل إتمام عملية الدفع.
+          </p>
+
+        </div>
+
+
+        <div class="guarantee-card">
+
+          <i class="bi bi-truck"></i>
+
+          <h3>
+            شحن طبي لجميع المدن
+          </h3>
+
+          <p>
+            شحن آمن وسريع لجميع المحافظات والمدن.
+          </p>
+
+        </div>
+
+
+        <div class="guarantee-card">
+
+          <i class="bi bi-arrow-repeat"></i>
+
+          <h3>
+            ضمان ذهبي واستبدال مجاني 14 يوماً
+          </h3>
+
+          <p>
+            سياسة استبدال واضحة وضمان على المنتجات.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       REVIEWS
+  ====================================== -->
+
+  <section class="reviews-section">
+
+    <div class="container">
+
+      <div class="section-title right">
+
+        <span>
+          تجارب العملاء
+        </span>
+
+        <h2>
+          تقييمات وآراء العملاء والمستخدمين
+        </h2>
+
+        <p>
+          آراء حقيقية من عملائنا بعد تجربة المنتج.
+        </p>
+
+      </div>
+
+
+      <!-- Summary -->
+
+      <div class="review-summary">
+
+        <div class="summary-number">
+
+          <strong>
+            {{ reviewSummary.rating }}
+          </strong>
+
+          <div class="stars">
+
+            <i
+              class="bi bi-star-fill"
+              *ngFor="let star of [1,2,3,4,5]">
+            </i>
+
+          </div>
+
+          <span>
+            بناءً على {{ reviewSummary.total }} تقييم
+          </span>
+
+        </div>
+
+
+        <div class="rating-bars">
+
+          <div
+            *ngFor="let item of reviewSummary.percentages">
+
+            <span>
+              {{ item.stars }} نجوم
+            </span>
+
+            <div class="bar">
+              <span
+                [style.width.%]="item.percentage">
+              </span>
+            </div>
+
+            <small>
+              {{ item.percentage }}%
+            </small>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Reviews -->
+
+      <div class="reviews-grid">
+
+        <div
+          class="review-card"
+          *ngFor="let review of reviews">
+
+          <div class="review-header">
+
+            <div class="customer">
+
+              <div class="avatar">
+                {{ review.initials }}
+              </div>
+
+              <div>
+
+                <strong>
+                  {{ review.name }}
+                </strong>
+
+                <small>
+                  {{ review.date }}
+                </small>
+
+              </div>
+
+            </div>
+
+            <span class="verified-review">
+              <i class="bi bi-check-circle-fill"></i>
+              مشتري موثق
+            </span>
+
+          </div>
+
+
+          <div class="stars">
+
+            <i
+              class="bi bi-star-fill"
+              *ngFor="let star of [1,2,3,4,5]">
+            </i>
+
+          </div>
+
+
+          <p>
+            "{{ review.text }}"
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       RELATED PRODUCTS
+  ====================================== -->
+
+  <section class="related">
+
+    <div class="container">
+
+      <div class="section-title right">
+
+        <span>
+          منتجات قد تناسبك
+        </span>
+
+        <h2>
+          مستلزمات وأجهزة تشخيصية موصى بها مع هذا الجهاز
+        </h2>
+
+      </div>
+
+
+      <div class="related-grid">
+
+        <div
+          class="related-card"
+          *ngFor="let related of relatedProducts">
+
+
+          <div class="related-image">
+
+            <img
+              [src]="related.image"
+              [alt]="related.name">
+
+          </div>
+
+
+          <div class="related-info">
+
+            <small>
+              {{ related.brand }}
+            </small>
+
+            <h3>
+              {{ related.name }}
+            </h3>
+
+
+            <div class="related-rating">
+
+              <span class="stars">
+                ★★★★★
+              </span>
+
+              {{ related.rating }}
+
+            </div>
+
+
+            <div class="related-price">
+
+              <strong>
+                {{ related.price }}
+                <small>ريال</small>
+              </strong>
+
+              <del>
+                {{ related.oldPrice }}
+              </del>
+
+            </div>
+
+
+            <button>
+
+              <i class="bi bi-cart-plus"></i>
+
+              أضف للسلة
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

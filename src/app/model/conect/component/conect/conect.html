@@ -1,0 +1,493 @@
+<div class="contact-page" dir="rtl">
+
+  <section class="hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <span>الرئيسية</span>
+        <i class="bi bi-chevron-left"></i>
+        <span class="active">خدمة العملاء</span>
+      </div>
+
+      <div class="hero-badge">
+        <i class="bi bi-headset"></i>
+        دعم فني واستشارات طبية
+      </div>
+
+      <h1>
+        تواصل معنا...
+        <span>نحن هنا لدعمك</span>
+        وتلبية احتياجاتك الطبية
+      </h1>
+
+      <p>
+        فريقنا متاح لتقديم الاستشارات والدعم الفني والسريري ومساعدتك في
+        الطلبات وتجهيز طلبات الأجهزة والمستلزمات الطبية بأعلى معايير الجودة
+        والسرعة العالمية. كما نضمن لك تجربة احترافية وآمنة.
+      </p>
+
+      <div class="hero-features">
+        <span>
+          <i class="bi bi-calendar-check"></i>
+          مواعيد مرنة 100% بدون رسوم
+        </span>
+
+        <span>
+          <i class="bi bi-shield-check"></i>
+          الدعم متاح على مدار الساعة
+        </span>
+
+        <span>
+          <i class="bi bi-whatsapp"></i>
+          استجابة فورية خلال دقائق
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-content">
+    <div class="container">
+
+      <div class="contact-grid">
+
+        <div class="main-area">
+
+          <div class="info-cards">
+
+            <div class="info-card phone-card">
+              <div class="card-icon">
+                <i class="bi bi-telephone"></i>
+              </div>
+
+              <small>الخط الساخن المباشر</small>
+              <h3>الهاتف والدعم الموحد</h3>
+
+              <p>
+                استشارات فورية ودعم فني وتوجيه للأجهزة
+                لجميع محافظات مصر.
+              </p>
+
+              <strong dir="ltr">01120892274</strong>
+
+              <a class="phone-call-btn" href="tel:+201120892274">
+                <i class="bi bi-telephone-fill"></i>
+                اتصل هاتفي الآن
+              </a>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon">
+                <i class="bi bi-chat-square-text"></i>
+              </div>
+
+              <small>المحادثة الفورية</small>
+              <h3>واتساب المهندسين الطبيين</h3>
+
+              <p>
+                تواصل مع فريق الخبراء في الاستشارات
+                وقطع الغيار وتوصيل الأجهزة.
+              </p>
+
+              <span class="online">
+                <i class="bi bi-circle-fill"></i>
+                متاح الآن للدعم السريع
+              </span>
+
+              <a class="dark-btn" href="https://wa.me/201120892274" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-whatsapp"></i>
+                محادثة واتساب مباشرة
+              </a>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon">
+                <i class="bi bi-envelope"></i>
+              </div>
+
+              <small>المراسلات الرسمية</small>
+              <h3>البريد الإلكتروني</h3>
+
+              <p>
+                طلبات عروض الأسعار الرسمية وطلبات الضمان
+                والاستفسارات التجارية.
+              </p>
+
+              <a href="mailto:support@souqtabi.com">
+                <i class="bi bi-envelope"></i>
+                support@souqtabi.com
+              </a>
+
+              <a href="mailto:sales@souqtabi.com">
+                <i class="bi bi-envelope"></i>
+                sales@souqtabi.com
+              </a>
+
+              <small class="response">
+                <i class="bi bi-clock"></i>
+                الرد المتوقع خلال ساعات عمل
+              </small>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon">
+                <i class="bi bi-hospital"></i>
+              </div>
+
+              <small>المستودع الرئيسي</small>
+              <h3>مصر</h3>
+
+              <p>
+                نخدم عملاءنا في جميع أنحاء مصر ونوفر الأجهزة والمستلزمات الطبية
+                بعناية وجودة.
+              </p>
+
+              <div class="working-time">
+                <span>السبت - الخميس</span>
+                <b>8:00 ص - 10:00 م</b>
+
+                <span>الجمعة</span>
+                <b>2:00 م - 10:00 م</b>
+              </div>
+
+              <a href="#" class="location-link">
+                <i class="bi bi-geo-alt-fill"></i>
+                تعرف سريعًا عن المدينة المعتمدة
+              </a>
+            </div>
+
+          </div>
+
+          <div class="form-card">
+
+            <div class="form-title">
+              <span>
+                <i class="bi bi-chat-square-text"></i>
+                استشارة واستفسار والتوريد الطبي
+              </span>
+
+              <h2>أرسل لنا استفسارك أو طلب التوريد</h2>
+
+              <p>
+                املأ البيانات أدناه، وسيتم تجهيز رسالتك لإرسالها مباشرة عبر واتساب.
+              </p>
+            </div>
+
+            <form (submit)="sendMessage($event)">
+              @if (formError) {
+                <div class="form-error" role="alert">{{ formError }}</div>
+              }
+
+              <div class="form-row">
+
+                <div class="input-group">
+                  <label>الاسم بالكامل أو اسم المنشأة الطبية *</label>
+                  <div class="input-box">
+                    <input type="text" name="fullName" placeholder="الاسم بالكامل أو اسم المنشأة" required minlength="2" maxlength="80">
+                    <i class="bi bi-person"></i>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label>البريد الإلكتروني *</label>
+                  <div class="input-box">
+                    <input type="email" name="email" placeholder="doctor@clinic.com" required maxlength="120">
+                    <i class="bi bi-envelope"></i>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="form-row">
+
+                <div class="input-group">
+                  <label>رقم الجوال / الواتساب</label>
+                  <div class="input-box">
+                    <input type="tel" name="phone" placeholder="01XXXXXXXXX" maxlength="20">
+                    <i class="bi bi-phone"></i>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <label>تصنيف الاستفسار أو الطلب</label>
+                  <div class="input-box">
+                    <select name="inquiryType" required>
+                      <option value="" selected disabled>اختر نوع الاستفسار...</option>
+                      <option value="طلب توريد أجهزة">طلب توريد أجهزة</option>
+                      <option value="استفسار عن منتج">استفسار عن منتج</option>
+                      <option value="الدعم الفني">الدعم الفني</option>
+                      <option value="طلب عرض سعر">طلب عرض سعر</option>
+                    </select>
+                    <i class="bi bi-tag"></i>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="input-group">
+                <label>تفاصيل الرسالة أو المواصفات المطلوبة *</label>
+                <textarea
+                  name="message"
+                  required
+                  minlength="5"
+                  maxlength="500"
+                  placeholder="يرجى كتابة كل التفاصيل المطلوبة أو الكمية المطلوبة أو تفاصيل الاستفسار الذي يخص مساعدتك...">
+                </textarea>
+              </div>
+
+              <div class="file-upload">
+                <div>
+                  <i class="bi bi-paperclip"></i>
+                  <strong>إرفاق صور أو مستندات سريرية (اختياري)</strong>
+                  <small [class.file-error]="attachmentError" role="status">
+                    {{ attachmentError || selectedFileName || 'الحد الأقصى 20 ميجا' }}
+                  </small>
+                </div>
+
+                <input
+                  id="contact-attachment"
+                  class="file-input"
+                  type="file"
+                  accept="image/*,.pdf,.doc,.docx"
+                  (change)="onFileSelected($event)"
+                >
+                <label class="file-upload-button" for="contact-attachment">
+                  <i class="bi bi-folder2-open"></i>
+                  تصفح الملفات
+                </label>
+              </div>
+
+              <div class="form-footer">
+                <span>
+                  <i class="bi bi-shield-lock"></i>
+                  بياناتك سرية ومحمية وفق سياسة الخصوصية ولن
+                  تتم مشاركتها مطلقًا.
+                </span>
+
+                <button class="submit-btn" type="submit">
+                  <i class="bi bi-send"></i>
+                  أرسل الرسالة الآن
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+
+        <aside class="sidebar">
+
+          <div class="benefits-card">
+            <div class="side-icon">
+              <i class="bi bi-patch-check"></i>
+            </div>
+
+            <h3>مزايا التوريد والمعرفي سوق طبي</h3>
+
+            <p>
+              نمنح منشأتك تجربة توريد آمنة تضمن لك الجودة
+              والدعم الفني والمستمرين بدون أي تعقيد.
+            </p>
+
+            <div class="benefit">
+              <i class="bi bi-check-circle"></i>
+              <div>
+                <strong>معاينة وفحص قبل السداد</strong>
+                <span>
+                  تحقق من جودة الجهاز وتوافقه الكامل قبل دفع أي مبلغ.
+                </span>
+              </div>
+            </div>
+
+            <div class="benefit">
+              <i class="bi bi-check-circle"></i>
+              <div>
+                <strong>ضمان صيانة واستبدال سنتين</strong>
+                <span>
+                  ضمان شامل مع توفير قطع غيار أصلية وسرعة استبدال.
+                </span>
+              </div>
+            </div>
+
+            <div class="benefit">
+              <i class="bi bi-check-circle"></i>
+              <div>
+                <strong>جهات موثوقة ومعتمدة</strong>
+                <span>
+                  أجهزة ومستلزمات طبية بمعايير جودة عالمية.
+                </span>
+              </div>
+            </div>
+
+            <div class="benefit">
+              <i class="bi bi-check-circle"></i>
+              <div>
+                <strong>استشارات هندسية مجانية</strong>
+                <span>
+                  متخصصون لمساعدتك في اختيار الأجهزة المناسبة لاحتياجاتك.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="social-card">
+            <h3>تابعنا وتواصل عبر منصاتنا الرسمية</h3>
+
+            <p>
+              تابع تحديثات الأجهزة الطبية وعروض وخدمات التوريد الرسمية.
+            </p>
+
+            <div class="social-grid">
+              <a href="#">
+                <i class="bi bi-hash"></i>
+                تويتر / إكس
+              </a>
+
+              <a href="#">
+                <i class="bi bi-instagram"></i>
+                إنستجرام
+              </a>
+
+              <a href="#">
+                <i class="bi bi-facebook"></i>
+                فيسبوك
+              </a>
+
+              <a href="#">
+                <i class="bi bi-youtube"></i>
+                يوتيوب
+              </a>
+
+              <a href="#" class="full">
+                <i class="bi bi-play-btn"></i>
+                يوتيوب / فيديوهات شرح وتشغيل الأجهزة
+              </a>
+            </div>
+          </div>
+
+          <div class="map-card">
+            <div class="map-header">
+              <i class="bi bi-geo-alt"></i>
+              المستودع الرئيسي ومركز التوزيع
+            </div>
+
+            <div class="map">
+              <div class="map-content">
+                <i class="bi bi-geo-alt-fill"></i>
+                <strong>مصر</strong>
+                <span>جمهورية مصر العربية</span>
+              </div>
+            </div>
+
+            <p>
+              توصيل سريع لجميع محافظات مصر
+            </p>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <div class="container">
+
+      <div class="section-badge">
+        <i class="bi bi-patch-question"></i>
+        إجابات فورية وتفصيلية
+      </div>
+
+      <h2>الأسئلة الشائعة حول الطلب والتوريد الطبي</h2>
+
+      <p>
+        لم تجد إجابة؟ فريق الدعم جاهز لمساعدتك في أي وقت.
+      </p>
+
+      <div class="faq-list">
+
+        <details>
+          <summary>
+            <span class="number">01</span>
+            كيف تتم آلية المعاينة والفحص والدفع عند الاستلام (COD)؟
+            <i class="bi bi-chevron-down"></i>
+          </summary>
+          <div class="answer">
+            يتم فحص الطلب والتأكد من المواصفات قبل إتمام عملية الدفع والاستلام.
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span class="number">02</span>
+            هل الأجهزة والمعدات الطبية مشمولة بضمان معتمد وصيانة؟
+            <i class="bi bi-chevron-down"></i>
+          </summary>
+          <div class="answer">
+            نعم، تختلف مدة الضمان حسب نوع الجهاز والشركة المصنعة.
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span class="number">03</span>
+            ما هي المدة الزمنية لوصول الطلبات الطبية للمحافظات؟
+            <i class="bi bi-chevron-down"></i>
+          </summary>
+          <div class="answer">
+            تختلف مدة التوصيل حسب المنطقة ونوع المنتج وتوفره.
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span class="number">04</span>
+            هل تتوفر فواتير ضريبية رسمية وعروض أسعار للمراكز والعيادات؟
+            <i class="bi bi-chevron-down"></i>
+          </summary>
+          <div class="answer">
+            نعم، يمكن طلب الفاتورة الضريبية وعرض السعر من خلال فريق المبيعات.
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span class="number">05</span>
+            كيف يمكنني طلب استشارة لاختيار الجهاز الطبي المناسب لحالة المريض؟
+            <i class="bi bi-chevron-down"></i>
+          </summary>
+          <div class="answer">
+            يمكنك إرسال تفاصيل الحالة والجهاز المطلوب وسيتواصل معك الفريق المختص.
+          </div>
+        </details>
+
+      </div>
+
+    </div>
+  </section>
+
+  <section class="support-banner">
+    <div class="support-icon">
+      <i class="bi bi-headset"></i>
+    </div>
+
+    <div>
+      <small>دعم فني مباشر وتوريد فوري</small>
+      <h2>هل تحتاج مساعدة عاجلة بشأن جهاز طبي أو طلب توريد جديد؟</h2>
+      <p>
+        فريقنا الطبي المعتمد جاهز لمساعدتك فورًا والإجابة عن جميع استفساراتك التشغيلية.
+      </p>
+    </div>
+
+    <div class="support-actions">
+      <a href="tel:+201120892274">
+        <i class="bi bi-telephone-fill"></i>
+        01120892274
+      </a>
+
+      <a href="https://wa.me/201120892274" target="_blank" rel="noopener noreferrer">
+        <i class="bi bi-whatsapp"></i>
+        01120892274 واتساب
+      </a>
+    </div>
+  </section>
+
+</div>

@@ -1,0 +1,265 @@
+<header class="top-header" dir="rtl">
+
+  <!-- اللوجو -->
+  <div class="brand-section">
+    <div class="brand-text">
+      <h1>سوق طبي</h1>
+      <p>
+        منصة المستلزمات والأجهزة الطبية المعتمدة
+        <i class="bi bi-patch-check-fill"></i>
+      </p>
+    </div>
+
+    <div class="logo-icon">
+      <i class="bi bi-bag-plus-fill"></i>
+    </div>
+  </div>
+
+
+  <!-- الجزء الشمال -->
+  <div class="header-actions">
+
+    <!-- الدعم الفني -->
+    <div class="support">
+      <span>الدعم الفني:</span>
+      <strong>920000000</strong>
+      <i class="bi bi-headset"></i>
+    </div>
+
+    <!-- العودة للمتجر -->
+    <div class="back-store">
+      <a routerLink="/" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+        <span>العودة للمتجر الرئيسي</span>
+        <i class="bi bi-arrow-left"></i>
+      </a>
+    </div>
+
+    <!-- المستخدم -->
+    <div class="user-icon">
+      <i class="bi bi-person"></i>
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<div class="register-page" dir="rtl">
+
+  <div class="register-container">
+
+    <section class="register-card">
+
+      <div class="top-line"></div>
+
+      <div class="form-content">
+
+        <div class="form-badge">
+          <i class="bi bi-person-check"></i>
+          التسجيل والتوريد المعتمد
+        </div>
+
+        <h1>إنشاء حساب طبي جديد</h1>
+
+        <p class="intro">
+          انضم إلى منصة سوق طبي واستفد من التوريد السريع، الضمان المعتمد
+          للأجهزة والمعدات التشخيصية، وخدمة الفحص السريري المباشر.
+        </p>
+
+        @if (errorMessage) {
+          <div class="form-error" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            <span>{{ errorMessage }}</span>
+          </div>
+        }
+
+        <div class="account-type">
+          <button type="button" class="type-btn" [class.active]="role === 'user'" (click)="role = 'user'">
+            <i class="bi bi-person"></i>
+            أفراد وعائلات
+          </button>
+
+          <button type="button" class="type-btn" [class.active]="role === 'doctor' || role === 'vendor'" (click)="role = 'doctor'">
+            <i class="bi bi-hospital"></i>
+            عيادات ومنشآت طبية
+          </button>
+        </div>
+
+        <form class="register-form" (ngSubmit)="submit()">
+
+          <div class="form-grid">
+
+          <div class="field">
+            <label>
+              الاسم بالكامل
+              <span>*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <input
+                type="text"
+                name="name"
+                [(ngModel)]="name"
+                required
+                minlength="2"
+                maxlength="80"
+                autocomplete="name"
+                placeholder="د. عبد العزيز بن فهد أو الاسم الثلاثي"
+              >
+              <i class="bi bi-person-vcard"></i>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>
+              البريد الإلكتروني
+              <span>*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <input
+                type="email"
+                name="email"
+                [(ngModel)]="email"
+                required
+                maxlength="120"
+                autocomplete="email"
+                dir="ltr"
+                placeholder="example@hospital.com أو personal@mail.com"
+              >
+              <i class="bi bi-envelope"></i>
+            </div>
+          </div>
+
+          <div class="field wide-field">
+            <label>رقم الجوال للتواصل وتتبع الشحنات</label>
+            <div class="input-wrapper">
+              <input
+                type="tel"
+                name="phone"
+                [(ngModel)]="phone"
+                maxlength="20"
+                autocomplete="tel"
+                placeholder="+966 50 XXX XXXX"
+              >
+              <i class="bi bi-phone"></i>
+            </div>
+          </div>
+
+          @if (role === 'doctor') {
+            <div class="field wide-field">
+              <label>اسم المنشأة أو العيادة الطبية</label>
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  name="organization"
+                  [(ngModel)]="organization"
+                  maxlength="100"
+                  autocomplete="organization"
+                  placeholder="مجمع النخيل الطبي المتخصص"
+                >
+                <i class="bi bi-building"></i>
+              </div>
+            </div>
+          }
+
+          <div class="field">
+            <label>
+              كلمة المرور
+              <span>*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <input
+                type="password"
+                name="password"
+                [(ngModel)]="password"
+                required
+                minlength="6"
+                maxlength="64"
+                autocomplete="new-password"
+                placeholder="أدخل 6 أحرف على الأقل"
+              >
+              <i class="bi bi-lock"></i>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>
+              تأكيد كلمة المرور
+              <span>*</span>
+            </label>
+
+            <div class="input-wrapper">
+              <input
+                type="password"
+                name="confirmPassword"
+                [(ngModel)]="confirmPassword"
+                required
+                minlength="6"
+                maxlength="64"
+                autocomplete="new-password"
+                placeholder="أعد إدخال كلمة المرور"
+              >
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          </div>
+
+          <button type="submit" class="submit-btn" [disabled]="loading">
+            @if (loading) {
+              <i class="bi bi-arrow-repeat spin"></i> جاري إنشاء الحساب...
+            } @else {
+              <i class="bi bi-check2-circle"></i> إتمام التسجيل والبدء
+            }
+          </button>
+
+        </form>
+
+        <div class="login-prompt">
+          <span>لديك حساب بالفعل؟</span>
+          <a routerLink="/login">تسجيل الدخول هنا</a>
+        </div>
+
+      </div>
+
+    </section>
+
+    <aside class="registration-aside" dir="rtl">
+      <div class="aside-brand">
+        <img src="/logo.png" alt="" />
+        <span>سوق طبي</span>
+      </div>
+
+      <div class="aside-content">
+        <span class="aside-eyebrow"><i class="bi bi-patch-check-fill"></i> منصة طبية موثوقة</span>
+        <h2>احتياجاتك الطبية<br>في مكان واحد</h2>
+        <p>أنشئ حسابك لتتابع طلباتك وتحفظ بيانات التوصيل وتصل إلى منتجاتك المفضلة بسهولة.</p>
+
+        <div class="aside-benefits">
+          <div>
+            <i class="bi bi-shield-check"></i>
+            <span><strong>منتجات موثوقة</strong><small>اختيارات بعناية من موردين معتمدين</small></span>
+          </div>
+          <div>
+            <i class="bi bi-truck"></i>
+            <span><strong>توصيل واضح</strong><small>تابع طلبك حتى يصل إليك</small></span>
+          </div>
+          <div>
+            <i class="bi bi-headset"></i>
+            <span><strong>دعم متواصل</strong><small>مساعدة عند الحاجة في كل خطوة</small></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="aside-footer">
+        <i class="bi bi-heart-pulse-fill"></i>
+        <span>رعاية أفضل تبدأ باختيار موثوق</span>
+      </div>
+    </aside>
+
+  </div>
+
+</div>

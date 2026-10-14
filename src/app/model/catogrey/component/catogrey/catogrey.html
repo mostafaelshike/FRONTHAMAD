@@ -1,0 +1,395 @@
+<div class="category-page" dir="rtl">
+
+  <!-- =========================================
+       HEADER
+  ========================================== -->
+
+  <!-- <header class="page-header">
+
+    <div class="container">
+
+      <div class="breadcrumb">
+        <i class="bi bi-house"></i>
+
+        الرئيسية
+
+        <i class="bi bi-chevron-left"></i>
+
+        المنتجات والمعدات الطبية
+      </div>
+
+
+      <div class="top-notification">
+        <i class="bi bi-check-circle-fill"></i>
+
+        {{ loading
+          ? 'جارٍ تحميل الأقسام الطبية'
+          : categories.length + ' ' + (categories.length === 1 ? 'قسم طبي متاح' : 'أقسام طبية متاحة') }}
+      </div>
+
+    </div>
+
+  </header> -->
+
+
+  <!-- =========================================
+       HERO
+  ========================================== -->
+
+  <section class="hero">
+
+    <div class="container">
+
+      <div class="hero-badge">
+        <i class="bi bi-shield-check"></i>
+
+        مستلزمات وأجهزة طبية لاحتياجاتك اليومية
+      </div>
+
+
+      <h1>
+        اكتشف الأقسام الطبية المناسبة لك
+      </h1>
+
+
+      <p>
+        من احتياجات الرعاية المنزلية إلى مستلزمات العيادات والمنشآت،
+        تصفح الأقسام المتاحة واختر المنتجات التي تناسب احتياجك في مصر.
+      </p>
+
+
+      <!-- Search -->
+
+      <div class="search-box">
+
+        <i class="bi bi-search"></i>
+
+        <input
+          type="text"
+          [value]="searchQuery"
+          (input)="updateSearch($event)"
+          placeholder="ابحث باسم القسم أو نوع المستلزم الطبي..."
+          aria-label="ابحث في الأقسام الطبية"
+        >
+
+        @if (searchQuery) {
+          <button type="button" class="clear-search" (click)="searchQuery = ''">
+            <i class="bi bi-x-lg"></i>
+            مسح البحث
+          </button>
+        }
+
+      </div>
+
+
+      <!-- Filters -->
+
+      <div class="filters">
+
+        <button
+          type="button"
+          [class.active]="selectedCategoryId === 'all'"
+          (click)="selectCategory('all')">
+          كل الأقسام
+          <span>{{ categories.length }}</span>
+        </button>
+
+        <button
+          type="button"
+          *ngFor="let category of categories.slice(0, 4)"
+          [class.active]="selectedCategoryId === category._id"
+          (click)="selectCategory(category._id)">
+          {{ category.name }}
+          @if (category.productCount !== undefined) {
+            <span>{{ category.productCount }}</span>
+          }
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================
+       CATEGORIES
+  ========================================== -->
+
+  <section class="categories-section">
+
+    <div class="container">
+
+      <div class="section-heading">
+
+        <div>
+          <span>
+            {{ filteredCategories.length }} من {{ categories.length }} أقسام
+          </span>
+
+          <h2>
+            {{ searchQuery ? 'نتائج البحث عن: ' + searchQuery : 'تصفح حسب احتياجك' }}
+          </h2>
+        </div>
+
+        <p class="section-hint">اختر قسمًا لعرض المنتجات المرتبطة به</p>
+
+      </div>
+
+      @if (loading) {
+        <div class="categories-grid" aria-label="جارٍ تحميل الأقسام">
+          @for (item of [1, 2, 3, 4]; track item) {
+            <div class="category-card category-skeleton">
+              <span class="skeleton-icon"></span>
+              <span class="skeleton-line skeleton-title"></span>
+              <span class="skeleton-line"></span>
+              <span class="skeleton-line skeleton-short"></span>
+            </div>
+              }
+            </div>
+          } @else if (filteredCategories.length > 0) {
+            <div class="categories-grid">
+              <button
+                class="category-card"
+                type="button"
+                *ngFor="let category of filteredCategories"
+                (click)="browseCategory(category)">
+                <span class="category-icon">
+                  <i class="bi" [ngClass]="getCategoryIcon(category)"></i>
+                </span>
+
+                <span class="category-content">
+                  <strong>{{ category.name }}</strong>
+                  <span class="category-description">{{ getCategoryDescription(category) }}</span>
+                  <span class="tags">
+                    @if (category.productCount !== undefined) {
+                      <span>{{ category.productCount }} منتج</span>
+                    } @else {
+                      <span>تصفح المنتجات</span>
+                    }
+                  </span>
+                </span>
+
+                <span class="category-footer">
+                  <span>
+                    <i class="bi bi-box-seam"></i>
+                    منتجات القسم
+                  </span>
+                  <span class="browse-link">
+                    تصفح القسم
+                    <i class="bi bi-arrow-left"></i>
+                  </span>
+                </span>
+              </button>
+            </div>
+          } @else {
+            <div class="categories-empty">
+              <i class="bi bi-search"></i>
+              <h3>{{ categories.length ? 'لم نعثر على قسم مطابق' : 'الأقسام قيد التجهيز' }}</h3>
+              <p>
+                {{ categories.length
+                  ? 'جرّب كلمة بحث أخرى أو اعرض كل الأقسام.'
+                  : 'نعمل على إضافة الأقسام الطبية، تواصل معنا إذا كنت تبحث عن منتج معين.' }}
+              </p>
+              @if (categories.length && (searchQuery || selectedCategoryId !== 'all')) {
+                <button type="button" (click)="searchQuery = ''; selectCategory('all')">
+                  عرض كل الأقسام
+                </button>
+              }
+            </div>
+          }
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================
+       OFFERS
+  ========================================== -->
+
+  <section class="offers-section">
+
+    <div class="container offers-grid">
+
+
+      <!-- Clinic -->
+
+      <div class="clinic-offer">
+
+        <span class="offer-label">
+          <i class="bi bi-building"></i>
+          للعيادات والمراكز الطبية
+        </span>
+
+
+        <h2>
+          {{ clinicService.title }}
+        </h2>
+
+
+        <p>
+          {{ clinicService.description }}
+        </p>
+
+
+        <div class="offer-features">
+
+          <div
+            *ngFor="let feature of clinicService.features">
+
+            <strong>
+              {{ feature }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <button
+          (click)="contactClinic()">
+
+          اسألنا عن احتياج منشأتك
+
+          <i class="bi bi-arrow-left"></i>
+
+        </button>
+
+      </div>
+
+
+      <!-- Home Care -->
+
+      <div class="home-care">
+
+        <span class="offer-label">
+          <i class="bi bi-house-heart"></i>
+          للرعاية المنزلية
+        </span>
+
+
+        <h2>
+          {{ homeCare.title }}
+        </h2>
+
+
+        <p>
+          {{ homeCare.description }}
+        </p>
+
+
+        <button
+          (click)="viewHomeCare()">
+
+          تصفح المنتجات
+
+          <i class="bi bi-arrow-left"></i>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================
+       WHY US
+  ========================================== -->
+
+  <section class="why-section">
+
+    <div class="container">
+
+      <div class="section-heading centered">
+
+        <span>
+          لماذا يثق بنا الممارسون والمنازل؟
+        </span>
+
+        <h2>
+          لماذا يثق الممارسون والمنازل في "سوق طبي"؟
+        </h2>
+
+      </div>
+
+
+      <div class="why-grid">
+
+        <div
+          class="why-card"
+          *ngFor="let item of whyUs">
+
+          <div class="why-icon">
+
+            <i
+              class="bi"
+              [ngClass]="item.icon">
+            </i>
+
+          </div>
+
+
+          <h3>
+            {{ item.title }}
+          </h3>
+
+
+          <p>
+            {{ item.description }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================
+       BOTTOM CTA
+  ========================================== -->
+
+  <section class="bottom-cta">
+
+    <div class="container">
+
+      <div class="cta-content">
+
+        <div>
+
+          <span>
+            <i class="bi bi-headset"></i>
+            تحتاج مساعدة؟
+          </span>
+
+          <h2>
+            لم تجد القسم أو المنتج الذي تبحث عنه؟
+          </h2>
+
+          <p>
+            فريقنا جاهز لمساعدتك في الوصول إلى المنتج المناسب.
+          </p>
+
+        </div>
+
+
+        <button (click)="contactClinic()">
+
+          تواصل مع فريق الدعم
+
+          <i class="bi bi-arrow-left"></i>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>

@@ -1,1 +1,166 @@
-/* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: 'Cairo';
+    src: url('./assets/Cairo/Cairo-VariableFont_slnt,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}
+* {
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif !important;
+    padding: 0;
+    margin: 0;
+
+}
+
+
+/* ========== Scrollbar أخضر ========== */
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e8f5f0;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 10px;
+  border: 2px solid #e8f5f0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #059669;
+}
+
+::-webkit-scrollbar-corner {
+  background: #e8f5f0;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #10b981 #e8f5f0;
+}
+
+.app-toast-container {
+  position: fixed;
+  inset-inline-start: 24px;
+  bottom: 24px;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(390px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.app-toast {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 68px;
+  padding: 14px 14px 16px;
+  overflow: hidden;
+  border: 1px solid #e4ebe6;
+  border-inline-start: 4px solid #10835b;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgba(23, 48, 36, .2);
+  color: #20342a;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+  pointer-events: auto;
+  animation: app-toast-enter 220ms ease-out both;
+}
+
+.app-toast--success { border-inline-start-color: #10835b; }
+.app-toast--error { border-inline-start-color: #c3354b; }
+.app-toast--info { border-inline-start-color: #2877a8; }
+
+.app-toast__icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 50%;
+  background: #e8f5ef;
+  color: #10835b;
+  font-size: 17px;
+}
+
+.app-toast--error .app-toast__icon { background: #fff0f1; color: #c3354b; }
+.app-toast--info .app-toast__icon { background: #edf6fb; color: #2877a8; }
+
+.app-toast__text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.app-toast__close {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #718078;
+  cursor: pointer;
+}
+
+.app-toast__close:hover { background: #f1f5f2; color: #20342a; }
+
+.app-toast__progress {
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  transform-origin: right;
+  background: #10835b;
+  animation-name: app-toast-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.app-toast--error .app-toast__progress { background: #c3354b; }
+.app-toast--info .app-toast__progress { background: #2877a8; }
+
+@keyframes app-toast-enter {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes app-toast-progress {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+@media (max-width: 600px) {
+  .app-toast-container {
+    inset-inline-start: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: calc(100vw - 24px);
+  }
+
+  .app-toast {
+    min-height: 62px;
+    padding: 11px 10px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-toast,
+  .app-toast__progress { animation-duration: 1ms !important; }
+}

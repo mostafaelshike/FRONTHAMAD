@@ -1,0 +1,662 @@
+<!-- =========================
+     TOP BAR
+========================= -->
+
+<div class="top-bar">   <div class="container top-bar-content">
+
+
+<div class="top-right">
+
+  <span>
+    <i class="bi bi-truck"></i>
+    خدمة الدفع عند الاستلام متاحة لجميع الطلبات
+  </span>
+
+  <span class="divider">|</span>
+
+  <span>
+    <i class="bi bi-lightning-charge-fill"></i>
+    شحن سريع ومجاني لجميع المدن
+  </span>
+
+</div>
+
+<div class="top-left">
+
+  <span dir="ltr">
+    920000000
+    <i class="bi bi-telephone-fill"></i>
+  </span>
+
+</div>
+
+
+  </div> </div>
+
+<!-- =========================
+     MAIN HEADER
+========================= -->
+
+<header class="main-header">
+
+  <div class="container header-container">
+
+
+<!-- LOGO -->
+<div class="logo-section">
+
+  <div class="logo-icon">
+    <img
+      src="/logo.png"
+      alt="شعار سوق طبي"
+    />
+  </div>
+
+  <div class="logo-text">
+
+    <h2>سوق طبي</h2>
+
+    <span>
+      المتجر الطبي المعتمد
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- SEARCH -->
+<form class="search-section" (ngSubmit)="onSearch()">
+
+  <div class="search-box">
+
+    <input
+      type="search"
+      name="keyword"
+      [(ngModel)]="searchQuery"
+      placeholder="ابحث عن مستلزم طبي، جهاز قياس، معدات..."
+      aria-label="ابحث عن منتج"
+    />
+
+    <button
+      class="search-btn"
+      type="submit"
+      aria-label="تنفيذ البحث"
+    >
+      <i class="bi bi-search"></i>
+    </button>
+
+  </div>
+
+</form>
+
+
+<!-- ACTIONS -->
+<div class="header-actions">
+
+  <!-- Mobile Menu -->
+  <button
+    class="menu-toggle-btn"
+    type="button"
+    (click)="toggleSidebar()"
+    aria-label="فتح القائمة"
+  >
+    <i class="bi bi-list"></i>
+  </button>
+
+
+  <!-- Account -->
+  <div
+    class="action-item account-item"
+    [routerLink]="authService.isAuthenticated() ? '/profile' : '/login'"
+  >
+
+    <div class="action-icon">
+      <i class="bi bi-person"></i>
+    </div>
+
+    <span>
+      حسابي
+    </span>
+
+  </div>
+
+
+  <!-- Wishlist -->
+  <div
+    class="action-item wishlist-item"
+    routerLink="/favorit"
+  >
+
+    <div class="action-icon">
+
+      <span class="badge red" *ngIf="wishlistService.wishlistCount() > 0">
+        {{ wishlistService.wishlistCount() }}
+      </span>
+
+      <i class="bi bi-heart"></i>
+
+    </div>
+
+    <span>
+      المفضلة
+    </span>
+
+  </div>
+
+
+  <!-- Cart -->
+  <div
+    class="cart-box"
+    routerLink="/cart"
+  >
+
+    <div class="cart-icon-wrapper">
+
+      <span class="badge" *ngIf="cartService.itemCount() > 0">
+        {{ cartService.itemCount() }}
+      </span>
+
+      <i class="bi bi-cart3"></i>
+
+    </div>
+
+    <div class="cart-info">
+
+      <span class="cart-text">
+        السلة
+      </span>
+
+      <span class="cart-amount">
+        {{ cartService.total() | number:'1.0-0' }} ر.س
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+  </div>
+
+</header>
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<nav class="nav-links-bar">
+
+  <div class="container nav-links-container">
+
+
+<!-- RIGHT -->
+<ul class="nav-links">
+
+  <!-- الرئيسية -->
+  <li>
+
+    <a
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      الرئيسية
+    </a>
+
+  </li>
+
+
+  <!-- المنتجات -->
+  <li>
+
+    <a
+      routerLink="/product"
+      routerLinkActive="active"
+    >
+      المنتجات
+    </a>
+
+  </li>
+
+
+  <!-- الأقسام -->
+  <li>
+
+    <a
+      routerLink="/catogrey"
+      routerLinkActive="active"
+    >
+      الأقسام
+    </a>
+
+  </li>
+
+
+  <!-- من نحن -->
+  <li>
+
+    <a
+      routerLink="/about"
+      routerLinkActive="active"
+    >
+      من نحن
+    </a>
+
+  </li>
+
+
+  <!-- تواصل معنا -->
+  <li>
+
+    <a
+      routerLink="/conect"
+      routerLinkActive="active"
+    >
+      تواصل معنا
+    </a>
+
+  </li>
+
+</ul>
+
+
+<!-- LEFT -->
+<div class="left-guarantee">
+
+  <i class="bi bi-shield-check"></i>
+
+  <span>
+    أجهزة ومعدات موثوقة ومطابقة للمواصفات
+  </span>
+
+</div>
+
+
+  </div>
+
+</nav>
+
+<!-- =========================
+     MOBILE SIDEBAR OVERLAY
+========================= -->
+
+<div
+  class="sidebar-overlay"
+  [class.active]="isSidebarOpen"
+  (click)="closeSidebar()"
+></div>
+
+<!-- =========================
+     MOBILE SIDEBAR
+========================= -->
+
+<aside
+  class="sidebar"
+  [class.active]="isSidebarOpen"
+  dir="rtl"
+>
+
+  <!-- Sidebar Header -->
+
+  <div class="sidebar-header">
+
+
+<div class="sidebar-logo">
+
+  <div class="sidebar-logo-icon">
+
+    <img
+      src="../../../../../assets/images/logo.png"
+      alt="سوق طبي"
+    />
+
+  </div>
+
+  <div>
+
+    <h3>
+      سوق طبي
+    </h3>
+
+    <span>
+      المتجر الطبي المعتمد
+    </span>
+
+  </div>
+
+</div>
+
+
+<button
+  class="close-btn"
+  type="button"
+  (click)="closeSidebar()"
+  aria-label="إغلاق القائمة"
+>
+
+  <i class="bi bi-x-lg"></i>
+
+</button>
+
+
+  </div>
+
+  <!-- Sidebar User -->
+
+  <div class="sidebar-user">
+
+
+<div class="sidebar-user-icon">
+
+  <i class="bi bi-person"></i>
+
+</div>
+
+<div>
+
+  <strong>
+    مرحباً بك
+  </strong>
+
+  <span>
+    سجل الدخول لإدارة حسابك
+  </span>
+
+</div>
+
+<i class="bi bi-chevron-left"></i>
+
+
+  </div>
+
+  <form class="sidebar-search" (ngSubmit)="onSearch()">
+    <label for="sidebar-search-input">ابحث في المنتجات</label>
+    <div class="sidebar-search-box">
+      <i class="bi bi-search" aria-hidden="true"></i>
+      <input
+        id="sidebar-search-input"
+        type="search"
+        name="sidebarKeyword"
+        [(ngModel)]="searchQuery"
+        placeholder="اسم المنتج أو الجهاز"
+        aria-label="ابحث عن منتج من القائمة الجانبية"
+      />
+      <button type="submit" aria-label="تنفيذ البحث">
+        <i class="bi bi-arrow-left"></i>
+      </button>
+    </div>
+  </form>
+
+  <!-- Sidebar Links -->
+
+  <ul class="sidebar-links">
+
+
+<!-- الرئيسية -->
+<li>
+
+  <a
+    routerLink="/"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    (click)="closeSidebar()"
+  >
+
+    <i class="bi bi-house-door"></i>
+
+    <span>
+      الرئيسية
+    </span>
+
+    <i class="bi bi-chevron-left arrow"></i>
+
+  </a>
+
+</li>
+
+
+<!-- المنتجات -->
+<li>
+
+  <a
+    routerLink="/product"
+    routerLinkActive="active"
+    (click)="closeSidebar()"
+  >
+
+    <i class="bi bi-box-seam"></i>
+
+    <span>
+      المنتجات
+    </span>
+
+    <i class="bi bi-chevron-left arrow"></i>
+
+  </a>
+
+</li>
+
+
+<!-- الأقسام -->
+<li>
+
+  <a
+    routerLink="/catogrey"
+    routerLinkActive="active"
+    (click)="closeSidebar()"
+  >
+
+    <i class="bi bi-grid"></i>
+
+    <span>
+      الأقسام
+    </span>
+
+    <i class="bi bi-chevron-left arrow"></i>
+
+  </a>
+
+</li>
+
+
+<!-- المفضلة -->
+<li>
+
+  <a
+    routerLink="/favorit"
+    routerLinkActive="active"
+    (click)="closeSidebar()"
+  >
+
+    <i class="bi bi-heart"></i>
+
+    <span>
+      المفضلة
+    </span>
+
+    <span class="sidebar-badge red" *ngIf="wishlistService.wishlistCount() > 0">
+      {{ wishlistService.wishlistCount() }}
+    </span>
+
+    <i class="bi bi-chevron-left arrow"></i>
+
+  </a>
+
+</li>
+
+
+<!-- السلة -->
+<li>
+
+  <a
+    routerLink="/cart"
+    routerLinkActive="active"
+    (click)="closeSidebar()"
+  >
+
+    <i class="bi bi-cart3"></i>
+
+    <span>
+      السلة
+    </span>
+
+    <span class="sidebar-badge" *ngIf="cartService.itemCount() > 0">
+      {{ cartService.itemCount() }}
+    </span>
+
+    <i class="bi bi-chevron-left arrow"></i>
+
+  </a>
+
+</li>
+
+
+<!-- حسابي -->
+<li>
+
+  <a
+    routerLink="/login"
+    routerLinkActive="active"
+    (click)="closeSidebar()"
+  >
+
+    <i class="bi bi-person"></i>
+
+    <span>
+      حسابي
+    </span>
+
+    <i class="bi bi-chevron-left arrow"></i>
+
+  </a>
+
+</li>
+
+
+<!-- من نحن -->
+<li>
+
+  <a
+    routerLink="/about"
+    routerLinkActive="active"
+    (click)="closeSidebar()"
+  >
+
+    <i class="bi bi-info-circle"></i>
+
+    <span>
+      من نحن
+    </span>
+
+    <i class="bi bi-chevron-left arrow"></i>
+
+  </a>
+
+</li>
+
+
+<!-- تواصل معنا -->
+<li>
+
+  <a
+    routerLink="/conect"
+    routerLinkActive="active"
+    (click)="closeSidebar()"
+  >
+
+    <i class="bi bi-headset"></i>
+
+    <span>
+      تواصل معنا
+    </span>
+
+    <i class="bi bi-chevron-left arrow"></i>
+
+  </a>
+
+</li>
+
+
+<!-- عروض خاصة -->
+<li>
+
+  <a
+    href="#"
+    (click)="closeSidebar()"
+  >
+
+    <i class="bi bi-tag"></i>
+
+    <span>
+      عروض خاصة
+    </span>
+
+    <span class="tag red">
+      تخفيضات
+    </span>
+
+    <i class="bi bi-chevron-left arrow"></i>
+
+  </a>
+
+</li>
+
+
+<!-- الدفع عند الاستلام -->
+<li>
+
+  <a
+    href="#"
+    (click)="closeSidebar()"
+  >
+
+    <i class="bi bi-truck"></i>
+
+    <span>
+      الدفع عند الاستلام
+    </span>
+
+    <span class="tag green">
+      حصريا
+    </span>
+
+    <i class="bi bi-chevron-left arrow"></i>
+
+  </a>
+
+</li>
+
+
+  </ul>
+
+  <!-- Sidebar Footer -->
+
+  <div class="sidebar-footer">
+
+
+<div>
+
+  <i class="bi bi-shield-check"></i>
+
+  <span>
+    أجهزة ومعدات موثوقة
+  </span>
+
+</div>
+
+<div>
+
+  <i class="bi bi-telephone"></i>
+
+  <span dir="ltr">
+    920000000
+  </span>
+
+</div>
+
+
+  </div>
+
+</aside>
